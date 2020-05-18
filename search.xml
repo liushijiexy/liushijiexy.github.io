@@ -1,3 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
+  <entry>
+    <title>hexo+github搭建免费博客</title>
+    <url>/2020/05/19/diyici/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用github pages服务搭建博客的好处有：</p>
+<ul>
+<li><p>全是静态文件，访问速度快；</p>
+</li>
+<li><p>免费方便，不用花一分钱就可以搭建一个自由的个人博客，不需要服务器不需要后台；</p>
+</li>
+<li><p>可以随意绑定自己的域名，不仔细看的话根本看不出来你的网站是基于github的；</p>
+</li>
+<li><p>数据绝对安全，基于github的版本管理，想恢复到哪个历史版本都行；</p>
+</li>
+<li><p>博客内容可以轻松打包、转移、发布到其它平台；</p>
+</li>
+<li><p>等等；</p>
+</li>
+</ul>
+<a id="more"></a>
+
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
+<li>有一个github账号，没有的话去注册一个；</li>
+<li>安装了node.js、npm，并了解相关基础知识；</li>
+<li>安装了git for windows（或者其它git客户端）</li>
+</ul>
+<h1 id="搭建github博客"><a href="#搭建github博客" class="headerlink" title="搭建github博客"></a>搭建github博客</h1><ul>
+<li><p>创建仓库<br>新建一个名为  你的用户名.github.io的仓库，比如说，如果你的github用户名是test，那么你就新建test.github.io的仓库（必须是你的用户名，其它名称无效）</p>
+</li>
+<li><p>配置SSH key</p>
+<p>  $ cd ~/. ssh #检查本机已存在的ssh密钥</p>
+<p>  $ ssh-keygen -t rsa -C “邮件地址”</p>
+</li>
+<li><p>然后连续3次回车，最终会生成一个文件在用户目录下，打开用户目录，找到.ssh\id_rsa.pub文件</p>
+<pre><code>复制里面的内容，打开你的github主页，进入个人设置 -&gt; SSH and GPG keys -&gt; New SSH key：</code></pre></li>
+</ul>
+<h1 id="配置："><a href="#配置：" class="headerlink" title="配置："></a>配置：</h1><ul>
+<li>$ git config –global user.name “liuxianan”// 你的github用户名，非昵称</li>
+<li>$ git config –global user.email  “<a href="mailto:xxx@qq.com">xxx@qq.com</a>“// 填写你的github注册邮箱</li>
+</ul>
+<h1 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h1><ul>
+<li><p>$ npm install -g hexo</p>
+<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>在电脑的某个地方新建一个名为hexo的文件夹由于这个文件夹将来就作为你存放代码的地方，所以最好不要随便放注意一定要是空文件夹。</p>
+</li>
+<li><p>$ cd /f/Workspaces/hexo/</p>
+</li>
+<li><p>$ hexo init</p>
+</li>
+</ul>
+<h1 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h1><ul>
+<li>$ hexo g # 生成</li>
+<li>$ hexo s # 启动服务</li>
+</ul>
+<h1 id="主题替换"><a href="#主题替换" class="headerlink" title="主题替换"></a>主题替换</h1><ul>
+<li>git clone <a href="https://github.com/litten/hexo-theme-yilia.git" target="_blank" rel="noopener">https://github.com/litten/hexo-theme-yilia.git</a> themes/yilia</li>
+</ul>
+<h2 id="上传"><a href="#上传" class="headerlink" title="上传"></a>上传</h2><p>*修改_config.yml中的theme: landscape改为theme: yilia，然后重新执行hexo g来重新生成。</p>
+<p>如果出现一些莫名其妙的问题，可以先执行hexo clean来清理一下public的内容，然后再来重新生成和发布</p>
+<ul>
+<li>deploy:<ul>
+<li>type: git</li>
+<li>repository: <a href="mailto:git@github.com">git@github.com</a>:liuxianan/liuxianan.github.io.git</li>
+<li>branch: master</li>
+</ul>
+</li>
+</ul>
+<p>执行npm install hexo-deployer-git –save</p>
+<h1 id="常用hexo命令"><a href="#常用hexo命令" class="headerlink" title="常用hexo命令"></a>常用hexo命令</h1><p>hexo new “postName” #新建文章</p>
+<p>hexo new page “pageName” #新建页面</p>
+<p>hexo generate #生成静态页面至public目录</p>
+<p>hexo server #开启预览访问端口（默认端口4000，’ctrl + c’关闭server）</p>
+<p>hexo deploy #部署到GitHub</p>
+<p>hexo help  # 查看帮助</p>
+<p>hexo version  #查看Hexo的版本</p>
+<p>hexo s -g #生成并本地预览</p>
+<p>hexo d -g #生成并上传</p>
+<h1 id="写博客工具"><a href="#写博客工具" class="headerlink" title="写博客工具"></a>写博客工具</h1><p>推荐 Visual Studio Code</p>
+<h1 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h1><p>liushijiexy.github.io</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa" target="_blank" rel="noopener">http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa</a></p>
+]]></content>
+      <categories>
+        <category>默认分类</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
 </search>

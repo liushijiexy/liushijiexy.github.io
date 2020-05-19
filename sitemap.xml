@@ -2,9 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2020/05/19/Untitled/</loc>
+    <loc>http://yoursite.com/2020/05/19/JVM(%E4%B8%8A)/</loc>
     
-    <lastmod>2020-05-19T08:27:57.331Z</lastmod>
+    <lastmod>2020-05-19T14:24:16.342Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%8B%EF%BC%89/</loc>
+    
+    <lastmod>2020-05-19T14:16:59.054Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%AD%EF%BC%89/</loc>
+    
+    <lastmod>2020-05-19T11:37:40.137Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%8A%EF%BC%89/</loc>
+    
+    <lastmod>2020-05-19T10:47:28.952Z</lastmod>
     
   </url>
   
@@ -16,23 +37,9 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</loc>
-    
-    <lastmod>2020-05-19T08:16:32.373Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2020/05/19/linux%20%E5%85%A5%E9%97%A8/</loc>
     
     <lastmod>2020-05-19T03:17:55.927Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2020/05/19/JavaBash/</loc>
-    
-    <lastmod>2020-05-19T00:52:53.711Z</lastmod>
     
   </url>
   

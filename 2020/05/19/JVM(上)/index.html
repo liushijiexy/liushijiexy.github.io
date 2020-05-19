@@ -6,20 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Java 并发基础知识 | 小站博客</title>
+  <title>JVM(上) | 小站博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Java 并发基础知识 （上）">
+  <meta name="description" content="JVM(上)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java 并发基础知识">
-<meta property="og:url" content="http://yoursite.com/2020/05/19/Untitled/index.html">
+<meta property="og:title" content="JVM(上)">
+<meta property="og:url" content="http://yoursite.com/2020/05/19/JVM(%E4%B8%8A)/index.html">
 <meta property="og:site_name" content="小站博客">
-<meta property="og:description" content="Java 并发基础知识 （上）">
+<meta property="og:description" content="JVM(上)">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-05-19T08:16:58.000Z">
-<meta property="article:modified_time" content="2020-05-19T08:27:57.331Z">
+<meta property="article:published_time" content="2020-05-19T14:16:58.000Z">
+<meta property="article:modified_time" content="2020-05-19T14:24:16.342Z">
 <meta property="article:author" content="liushijiexy">
-<meta property="article:tag" content="并发">
 <meta property="article:tag" content="基础">
+<meta property="article:tag" content="JVM">
+<meta property="article:tag" content="虚拟机">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="小站博客" type="application/atom+xml">
@@ -142,28 +143,80 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Untitled" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-JVM(上)" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Java 并发基础知识
+      JVM(上)
     </h1>
   
 
         
-        <a href="/2020/05/19/Untitled/" class="archive-article-date">
-  	<time datetime="2020-05-19T08:16:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-19</time>
+        <a href="/2020/05/19/JVM(%E4%B8%8A)/" class="archive-article-date">
+  	<time datetime="2020-05-19T14:16:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="Java-并发基础知识"><a href="#Java-并发基础知识" class="headerlink" title="Java 并发基础知识"></a>Java 并发基础知识</h2><h3 id="什么是线程和进程"><a href="#什么是线程和进程" class="headerlink" title="什么是线程和进程?"></a>什么是线程和进程?</h3><h3 id="何为进程"><a href="#何为进程" class="headerlink" title="何为进程?"></a>何为进程?</h3><h3 id="何为线程"><a href="#何为线程" class="headerlink" title="何为线程?"></a>何为线程?</h3><h3 id="请简要描述线程与进程的关系-区别及优缺点？"><a href="#请简要描述线程与进程的关系-区别及优缺点？" class="headerlink" title="请简要描述线程与进程的关系,区别及优缺点？"></a>请简要描述线程与进程的关系,区别及优缺点？</h3><h3 id="图解进程和线程的关系"><a href="#图解进程和线程的关系" class="headerlink" title="图解进程和线程的关系"></a>图解进程和线程的关系</h3><h3 id="程序计数器为什么是私有的"><a href="#程序计数器为什么是私有的" class="headerlink" title="程序计数器为什么是私有的?"></a>程序计数器为什么是私有的?</h3><h3 id="虚拟机栈和本地方法栈为什么是私有的"><a href="#虚拟机栈和本地方法栈为什么是私有的" class="headerlink" title="虚拟机栈和本地方法栈为什么是私有的?"></a>虚拟机栈和本地方法栈为什么是私有的?</h3><h3 id="一句话简单了解堆和方法区"><a href="#一句话简单了解堆和方法区" class="headerlink" title="一句话简单了解堆和方法区"></a>一句话简单了解堆和方法区</h3><h3 id="说说并发与并行的区别"><a href="#说说并发与并行的区别" class="headerlink" title="说说并发与并行的区别?"></a>说说并发与并行的区别?</h3><h3 id="为什么要使用多线程呢"><a href="#为什么要使用多线程呢" class="headerlink" title="为什么要使用多线程呢?"></a>为什么要使用多线程呢?</h3><h3 id="使用多线程可能带来什么问题"><a href="#使用多线程可能带来什么问题" class="headerlink" title="使用多线程可能带来什么问题?"></a>使用多线程可能带来什么问题?</h3><h3 id="说说线程的生命周期和状态"><a href="#说说线程的生命周期和状态" class="headerlink" title="说说线程的生命周期和状态?"></a>说说线程的生命周期和状态?</h3><h3 id="什么是上下文切换"><a href="#什么是上下文切换" class="headerlink" title="什么是上下文切换?"></a>什么是上下文切换?</h3><h3 id="什么是线程死锁-如何避免死锁"><a href="#什么是线程死锁-如何避免死锁" class="headerlink" title="什么是线程死锁?如何避免死锁?"></a>什么是线程死锁?如何避免死锁?</h3><h3 id="认识线程死锁"><a href="#认识线程死锁" class="headerlink" title="认识线程死锁"></a>认识线程死锁</h3><h3 id="如何避免线程死锁"><a href="#如何避免线程死锁" class="headerlink" title="如何避免线程死锁?"></a>如何避免线程死锁?</h3><h3 id="说说sleep-方法和wait-方法区别和共同点"><a href="#说说sleep-方法和wait-方法区别和共同点" class="headerlink" title="说说sleep()方法和wait()方法区别和共同点?"></a>说说sleep()方法和wait()方法区别和共同点?</h3><h3 id="为什么我们调用start-方法时会执行run-方法，为什么我们不能直接调用run-方法？"><a href="#为什么我们调用start-方法时会执行run-方法，为什么我们不能直接调用run-方法？" class="headerlink" title="为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？"></a>为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？</h3><a id="more"></a>
-
+        <h1 id="JVM-上"><a href="#JVM-上" class="headerlink" title="JVM(上)"></a>JVM(上)</h1><ol>
+<li><h3 id="介绍下-Java-内存区域-运行时数据区"><a href="#介绍下-Java-内存区域-运行时数据区" class="headerlink" title="介绍下 Java 内存区域(运行时数据区)"></a>介绍下 Java 内存区域(运行时数据区)</h3><p>1.1. 程序计数器<br>1.2. Java 虚拟机栈<br>1.3. 本地方法栈<br>1.4. 堆<br>1.5. 方法区<br>1.5.1. 方法区和永久代的关系<br>1.5.2. 常用参数<br>1.5.3. 为什么要将永久代(PermGen)替换为元空间(MetaSpace)呢?<br>1.6. 运行时常量池<br>1.7. 直接内存</p>
+</li>
+<li><h3 id="说一下Java对象的创建过程"><a href="#说一下Java对象的创建过程" class="headerlink" title="说一下Java对象的创建过程"></a>说一下Java对象的创建过程</h3></li>
+<li><h3 id="对象的访问定位有哪两种方式"><a href="#对象的访问定位有哪两种方式" class="headerlink" title="对象的访问定位有哪两种方式?"></a>对象的访问定位有哪两种方式?</h3></li>
+<li><h3 id="说一下堆内存中对象的分配的基本策略"><a href="#说一下堆内存中对象的分配的基本策略" class="headerlink" title="说一下堆内存中对象的分配的基本策略"></a>说一下堆内存中对象的分配的基本策略</h3></li>
+<li><h3 id="Minor-Gc和Full-GC-有什么不同呢？"><a href="#Minor-Gc和Full-GC-有什么不同呢？" class="headerlink" title="Minor Gc和Full GC 有什么不同呢？"></a>Minor Gc和Full GC 有什么不同呢？</h3></li>
+<li><h3 id="如何判断对象是否死亡-两种方法"><a href="#如何判断对象是否死亡-两种方法" class="headerlink" title="如何判断对象是否死亡?(两种方法)"></a>如何判断对象是否死亡?(两种方法)</h3><p>6.1. 引用计数法</p>
+<p>6.2. 可达性分析算法</p>
+</li>
+<li><h3 id="简单的介绍一下强引用-软引用-弱引用-虚引用"><a href="#简单的介绍一下强引用-软引用-弱引用-虚引用" class="headerlink" title="简单的介绍一下强引用,软引用,弱引用,虚引用"></a>简单的介绍一下强引用,软引用,弱引用,虚引用</h3><p>7.1. 强引用(StrongReference)<br>7.2. 软引用(SoftReference)<br>7.3. 弱引用(WeakReference)</p>
+</li>
+<li><h3 id="如何判断一个常量是废弃常量"><a href="#如何判断一个常量是废弃常量" class="headerlink" title="如何判断一个常量是废弃常量?"></a>如何判断一个常量是废弃常量?</h3></li>
+<li><h3 id="如何判断一个类是无用的类"><a href="#如何判断一个类是无用的类" class="headerlink" title="如何判断一个类是无用的类?"></a>如何判断一个类是无用的类?</h3><ul>
+<li><p>10 垃圾收集有哪些算法，各自的特点？</p>
+</li>
+<li><p>10.1 标记-清除算法<br>10.2 复制算法<br>10.3 标记-整理算法<br>10.4 分代收集算法</p>
+</li>
+<li><ol start="11">
+<li>HotSpot为什么要分为新生代和老年代？</li>
+<li>常见的垃圾回收器有那些?</li>
+<li><ol>
+<li>Serial收集器</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>ParNew收集器</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>Parallel Scavenge收集器</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>Serial Old收集器</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>Parallel Old收集器</li>
+</ol>
+</li>
+<li><ol start="6">
+<li>CMS收集器</li>
+</ol>
+</li>
+<li><ol start="7">
+<li>G1收集器</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
 
       
 
@@ -208,11 +261,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">虚拟机</a>
         		</li>
       		
 		</ul>
@@ -279,7 +336,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/19/Untitled/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/19/JVM(%E4%B8%8A)/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -294,8 +351,8 @@
 <nav id="article-nav">
   
   
-    <a href="/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Java 并发基础知识</div>
+    <a href="/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%8B%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java 并发知识进阶(下)</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -433,10 +490,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">java基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">集合</a>
               </li>
              
@@ -458,6 +511,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">容器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">JVM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">虚拟机</a>
               </li>
             
             <div class="clearfix"></div>

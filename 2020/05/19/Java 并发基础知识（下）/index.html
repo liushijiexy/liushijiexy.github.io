@@ -6,20 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>hexo+github搭建免费博客 | 小站博客</title>
+  <title>Java 并发知识进阶(下) | 小站博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="github pages服务搭建博客">
+  <meta name="description" content="Java 并发基础知识 （下）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo+github搭建免费博客">
-<meta property="og:url" content="http://yoursite.com/2020/05/19/diyici/index.html">
+<meta property="og:title" content="Java 并发知识进阶(下)">
+<meta property="og:url" content="http://yoursite.com/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%8B%EF%BC%89/index.html">
 <meta property="og:site_name" content="小站博客">
-<meta property="og:description" content="github pages服务搭建博客">
+<meta property="og:description" content="Java 并发基础知识 （下）">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-05-18T22:16:58.000Z">
-<meta property="article:modified_time" content="2020-05-18T22:21:30.750Z">
+<meta property="og:image" content="E:%5CShellExt%5Cerer961115@163.com%5C2e2873ea261f488fba81a89fee309981%5Ccc50caa98adb.png">
+<meta property="og:image" content="E:%5CShellExt%5Cerer961115@163.com%5Ca417855e153e4222af3128d1280dd1d8%5C338e318ed4b7.png">
+<meta property="og:image" content="E:%5CShellExt%5Cerer961115@163.com%5C39f5c2602f4a471c8b2ba39abf041ae3%5C323d2ca6e11b.png">
+<meta property="og:image" content="E:%5CShellExt%5Cerer961115@163.com%5C5fe53d79aaa14509a9ec108e7271d106%5Cc5d80325e1d1.png">
+<meta property="og:image" content="E:%5CShellExt%5Cerer961115@163.com%5C2e207fbd972c4b4f87234880e3b4dfd7%5Cf7be5ccce6c1.png">
+<meta property="article:published_time" content="2020-05-19T11:46:58.000Z">
+<meta property="article:modified_time" content="2020-05-19T14:16:59.054Z">
 <meta property="article:author" content="liushijiexy">
-<meta property="article:tag" content="博客">
+<meta property="article:tag" content="并发">
+<meta property="article:tag" content="基础">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="E:%5CShellExt%5Cerer961115@163.com%5C2e2873ea261f488fba81a89fee309981%5Ccc50caa98adb.png">
   
     <link rel="alternative" href="/atom.xml" title="小站博客" type="application/atom+xml">
   
@@ -141,101 +148,222 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-diyici" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Java 并发基础知识（下）" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      hexo+github搭建免费博客
+      Java 并发知识进阶(下)
     </h1>
   
 
         
-        <a href="/2020/05/19/diyici/" class="archive-article-date">
-  	<time datetime="2020-05-18T22:16:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-19</time>
+        <a href="/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%8B%EF%BC%89/" class="archive-article-date">
+  	<time datetime="2020-05-19T11:46:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用github pages服务搭建博客的好处有：</p>
-<ul>
-<li><p>全是静态文件，访问速度快；</p>
+        <h1 id="Java-并发知识进阶-下"><a href="#Java-并发知识进阶-下" class="headerlink" title="Java 并发知识进阶(下)"></a>Java 并发知识进阶(下)</h1><ol>
+<li><h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>1.1. 为什么要用线程池？<br>1.2. 实现 Runnable 接口和 Callable 接口的区别<br>1.3. 执行 execute() 方法和 submit() 方法的区别是什么呢？<br>1.4. 如何创建线程池</p>
 </li>
-<li><p>免费方便，不用花一分钱就可以搭建一个自由的个人博客，不需要服务器不需要后台；</p>
+<li><h3 id="Atomic-原子类"><a href="#Atomic-原子类" class="headerlink" title="Atomic 原子类"></a>Atomic 原子类</h3><p>2.1. 介绍一下 Atomic 原子类<br>2.2. JUC 包中的原子类是哪 4 类?<br>2.3. 讲讲 AtomicInteger 的使用<br>2.4. 能不能给我简单介绍一下 AtomicInteger 类的原理</p>
 </li>
-<li><p>可以随意绑定自己的域名，不仔细看的话根本看不出来你的网站是基于github的；</p>
+<li><h3 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h3><p>3.1. AQS 介绍<br>3.2. AQS 原理分析<br>3.2.1. AQS 原理概览<br>3.2.2. AQS 对资源的共享方式<br>3.2.3. AQS 底层使用了模板方法模式<br>3.3. AQS 组件总结</p>
 </li>
-<li><p>数据绝对安全，基于github的版本管理，想恢复到哪个历史版本都行；</p>
-</li>
-<li><p>博客内容可以轻松打包、转移、发布到其它平台；</p>
-</li>
-<li><p>等等；</p>
-</li>
-</ul>
+</ol>
 <a id="more"></a>
 
-<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
-<li>有一个github账号，没有的话去注册一个；</li>
-<li>安装了node.js、npm，并了解相关基础知识；</li>
-<li>安装了git for windows（或者其它git客户端）</li>
-</ul>
-<h1 id="搭建github博客"><a href="#搭建github博客" class="headerlink" title="搭建github博客"></a>搭建github博客</h1><ul>
-<li><p>创建仓库<br>新建一个名为  你的用户名.github.io的仓库，比如说，如果你的github用户名是test，那么你就新建test.github.io的仓库（必须是你的用户名，其它名称无效）</p>
-</li>
-<li><p>配置SSH key</p>
-<p>  $ cd ~/. ssh #检查本机已存在的ssh密钥</p>
-<p>  $ ssh-keygen -t rsa -C “邮件地址”</p>
-</li>
-<li><p>然后连续3次回车，最终会生成一个文件在用户目录下，打开用户目录，找到.ssh\id_rsa.pub文件</p>
-<pre><code>复制里面的内容，打开你的github主页，进入个人设置 -&gt; SSH and GPG keys -&gt; New SSH key：</code></pre></li>
-</ul>
-<h1 id="配置："><a href="#配置：" class="headerlink" title="配置："></a>配置：</h1><ul>
-<li>$ git config –global user.name “liuxianan”// 你的github用户名，非昵称</li>
-<li>$ git config –global user.email  “<a href="mailto:xxx@qq.com">xxx@qq.com</a>“// 填写你的github注册邮箱</li>
-</ul>
-<h1 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h1><ul>
-<li><p>$ npm install -g hexo</p>
-<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>在电脑的某个地方新建一个名为hexo的文件夹由于这个文件夹将来就作为你存放代码的地方，所以最好不要随便放注意一定要是空文件夹。</p>
-</li>
-<li><p>$ cd /f/Workspaces/hexo/</p>
-</li>
-<li><p>$ hexo init</p>
-</li>
-</ul>
-<h1 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h1><ul>
-<li>$ hexo g # 生成</li>
-<li>$ hexo s # 启动服务</li>
-</ul>
-<h1 id="主题替换"><a href="#主题替换" class="headerlink" title="主题替换"></a>主题替换</h1><ul>
-<li>git clone <a href="https://github.com/litten/hexo-theme-yilia.git" target="_blank" rel="noopener">https://github.com/litten/hexo-theme-yilia.git</a> themes/yilia</li>
-</ul>
-<h2 id="上传"><a href="#上传" class="headerlink" title="上传"></a>上传</h2><p>*修改_config.yml中的theme: landscape改为theme: yilia，然后重新执行hexo g来重新生成。</p>
-<p>如果出现一些莫名其妙的问题，可以先执行hexo clean来清理一下public的内容，然后再来重新生成和发布</p>
+<ol>
+<li><h3 id="线程池-1"><a href="#线程池-1" class="headerlink" title="线程池"></a>线程池</h3></li>
+</ol>
+<p>1.1. 为什么要用线程池？</p>
+<p>线程池提供了一种限制和管理资源（包括执行一个任务）。 每个线程池还维护一些基本统计信息，例如已完成任务的数量。</p>
+<p>线程池的好处：</p>
 <ul>
-<li>deploy:<ul>
-<li>type: git</li>
-<li>repository: <a href="mailto:git@github.com">git@github.com</a>:liuxianan/liuxianan.github.io.git</li>
-<li>branch: master</li>
+<li><strong>降低资源消耗。</strong> 通过重复利用已创建的线程降低线程创建和销毁造成的消耗。</li>
+<li><strong>提高响应速度。</strong> 当任务到达时，任务可以不需要的等到线程创建就能立即执行。</li>
+<li><strong>提高线程的可管理性。</strong> 线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。</li>
+</ul>
+<h3 id="1-2-实现-Runnable-接口和-Callable-接口的区别"><a href="#1-2-实现-Runnable-接口和-Callable-接口的区别" class="headerlink" title="1.2. 实现 Runnable 接口和 Callable 接口的区别"></a>1.2. 实现 Runnable 接口和 Callable 接口的区别</h3><p>如果想让线程池执行任务的话需要实现的 Runnable 接口或 Callable 接口。 Runnable 接口或 Callable 接口实现类都可以被 ThreadPoolExecutor 或 ScheduledThreadPoolExecutor 执行。两者的区别在于 <strong>Runnable 接口不会返回结果但是 Callable 接口可以返回结果</strong>。</p>
+<p><strong>备注：</strong> 工具类Executors可以实现Runnable对象和Callable对象之间的相互转换。（Executors.callable（Runnable task）或Executors.callable（Runnable task，Object resule））。</p>
+<h3 id="1-3-执行-execute-方法和-submit-方法的区别是什么呢？"><a href="#1-3-执行-execute-方法和-submit-方法的区别是什么呢？" class="headerlink" title="1.3. 执行 execute() 方法和 submit() 方法的区别是什么呢？"></a>1.3. 执行 execute() 方法和 submit() 方法的区别是什么呢？</h3><p>1)<strong>execute()</strong> <strong>方法用于提交不需要返回值的任务，所以无法判断任务是否被线程池执行成功与否；</strong></p>
+<p>2)<strong>submit()</strong> <strong>方法用于提交需要返回值的任务。线程池会返回一个 Future 类型的对象，通过这个 Future 对象可以判断任务是否执行成功</strong>，并且可以通过 future 的 get() 方法来获取返回值，get() 方法会阻塞当前线程直到任务完成，而使用 get（long timeout，TimeUnit unit）方法则会阻塞当前线程一段时间后立即返回，这时候有可能任务没有执行完。</p>
+<h3 id="1-4-如何创建线程池"><a href="#1-4-如何创建线程池" class="headerlink" title="1.4. 如何创建线程池"></a>1.4. 如何创建线程池</h3><p>《阿里巴巴 Java 开发手册》中强制线程池不允许使用 Executors 去创建，而是通过 T<strong>hreadPoolExecutor</strong> 的方式，这样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险</p>
+<p>Executors 返回线程池对象的弊端如下：</p>
+<ul>
+<li><strong>FixedThreadPool 和 SingleThreadExecutor</strong> ： 允许请求的队列长度为 Integer.MAX_VALUE ，可能堆积大量的请求，从而导致 OOM。</li>
+<li><strong>CachedThreadPool 和 ScheduledThreadPool</strong> ： 允许创建的线程数量为 Integer.MAX_VALUE ，可能会创建大量线程，从而导致 OOM。</li>
+</ul>
+<p><strong>方式一：通过构造方法实现</strong></p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5C2e2873ea261f488fba81a89fee309981%5Ccc50caa98adb.png" alt="img"></p>
+<p>通过构造方法实现</p>
+<p><strong>方式二：通过 Executor 框架的工具类 Executors 来实现</strong></p>
+<p>我们可以创建三种类型的 ThreadPoolExecutor：</p>
+<ul>
+<li><strong>FixedThreadPool</strong> ： 该方法返回一个固定线程数量的线程池。该线程池中的线程数量始终不变。当有一个新的任务提交时，线程池中若有空闲线程，则立即执行。若没有，则新的任务会被暂存在一个任务队列中，待有线程空闲时，便处理在任务队列中的任务。</li>
+<li><strong>SingleThreadExecutor：</strong> 方法返回一个只有一个线程的线程池。若多余一个任务被提交到该线程池，任务会被保存在一个任务队列中，待线程空闲，按先入先出的顺序执行队列中的任务。</li>
+<li><strong>CachedThreadPool：</strong> 该方法返回一个可根据实际情况调整线程数量的线程池。线程池的线程数量不确定，但若有空闲线程可以复用，则会优先使用可复用的线程。若所有线程均在工作，又有新的任务提交，则会创建新的线程处理任务。所有线程在当前任务执行完毕后，将返回线程池进行复用。</li>
+</ul>
+<p>对应 Executors 工具类中的方法如图所示：</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5Ca417855e153e4222af3128d1280dd1d8%5C338e318ed4b7.png" alt="img"></p>
+<p>通过 Executor 框架的工具类 Executors 来实现</p>
+<ol start="2">
+<li><h4 id="Atomic-原子类-1"><a href="#Atomic-原子类-1" class="headerlink" title="Atomic 原子类"></a>Atomic 原子类</h4></li>
+</ol>
+<p>2.1. 介绍一下 Atomic 原子类</p>
+<p>Atomic 翻译成中文是原子的意思。在化学上，我们知道原子是构成一般物质的最小单位，在化学反应中是不可分割的。在我们这里 Atomic 是指一个操作是不可中断的。即使是在多个线程一起执行的时候，一个操作一旦开始，就不会被其他线程干扰。</p>
+<p>所以，所谓原子类说简单点就是具有原子/原子操作特征的类。</p>
+<p>并发包 java.util.concurrent 的原子类都存放在java.util.concurrent.atomic下,如下图所示。</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5C39f5c2602f4a471c8b2ba39abf041ae3%5C323d2ca6e11b.png" alt="img"></p>
+<p>2.2. JUC 包中的原子类是哪 4 类?</p>
+<p><strong>基本类型</strong></p>
+<p>使用原子的方式更新基本类型</p>
+<ul>
+<li>AtomicInteger：整形原子类</li>
+<li>AtomicLong：长整型原子类</li>
+<li>AtomicBoolean：布尔型原子类</li>
+</ul>
+<p><strong>数组类型</strong></p>
+<p>使用原子的方式更新数组里的某个元素</p>
+<ul>
+<li>AtomicIntegerArray：整形数组原子类</li>
+<li>AtomicLongArray：长整形数组原子类</li>
+<li>AtomicReferenceArray：引用类型数组原子类</li>
+</ul>
+<p><strong>引用类型</strong></p>
+<ul>
+<li>AtomicReference：引用类型原子类</li>
+<li>AtomicStampedRerence：原子更新引用类型里的字段原子类</li>
+<li>AtomicMarkableReference ：原子更新带有标记位的引用类型</li>
+</ul>
+<p><strong>对象的属性修改类型</strong></p>
+<ul>
+<li>AtomicIntegerFieldUpdater：原子更新整形字段的更新器</li>
+<li>AtomicLongFieldUpdater：原子更新长整形字段的更新器</li>
+<li>AtomicStampedReference：原子更新带有版本号的引用类型。该类将整数值与引用关联起来，可用于解决原子的更新数据和数据的版本号，可以解决使用 CAS 进行原子更新时可能出现的 ABA 问题。</li>
+</ul>
+<p>2.3. 讲讲 AtomicInteger 的使用</p>
+<p><strong>AtomicInteger 类常用方法</strong></p>
+<ul>
+<li><strong>public</strong> <strong>final</strong> <strong>int</strong> <strong>get</strong>() <em>//获取当前的值</em></li>
+<li><strong>public</strong> <strong>final</strong> <strong>int</strong> <strong>getAndSet</strong>(<strong>int</strong> newValue)<em>//获取当前的值，并设置新的值</em></li>
+<li><strong>public</strong> <strong>final</strong> <strong>int</strong> <strong>getAndIncrement</strong>()<em>//获取当前的值，并自增</em></li>
+<li><strong>public</strong> <strong>final</strong> <strong>int</strong> <strong>getAndDecrement</strong>() <em>//获取当前的值，并自减</em></li>
+<li><strong>public</strong> <strong>final</strong> <strong>int</strong> <strong>getAndAdd</strong>(<strong>int</strong> delta) <em>//获取当前的值，并加上预期的值</em></li>
+<li><strong>boolean</strong> <strong>compareAndSet</strong>(<strong>int</strong> expect, <strong>int</strong> update) <em>//如果输入的数值等于预期值，则以原子方式将该值设置为输入值（update）</em></li>
+<li><strong>public</strong> <strong>final</strong> <strong>void</strong> <strong>lazySet</strong>(<strong>int</strong> newValue)<em>//最终设置为 newValue,使用 lazySet 设置之后可能导致其他线程在之后的一小段时间内还是可以读到旧的值。</em></li>
+</ul>
+<p><strong>AtomicInteger 类的使用示例</strong></p>
+<p>使用 AtomicInteger 之后，不用对 increment() 方法加锁也可以保证线程安全。</p>
+<ul>
+<li><strong>class</strong> <strong>AtomicIntegerTest</strong> {</li>
+<li>​        <strong>private</strong> AtomicInteger count = <strong>new</strong> AtomicInteger();</li>
+<li>​      <em>//使用 AtomicInteger 之后，不需要对该方法加锁，也可以实现线程安全。</em></li>
+<li>​        <strong>public</strong> <strong>void</strong> <strong>increment</strong>() {</li>
+<li>​                  count.incrementAndGet();</li>
+<li>​        }</li>
+<li></li>
+<li>​       <strong>public</strong> <strong>int</strong> <strong>getCount</strong>() {</li>
+<li>​                <strong>return</strong> count.get();</li>
+<li>​        }</li>
+</ul>
+<p>2.4. 能不能给我简单介绍一下 AtomicInteger 类的原理</p>
+<p>AtomicInteger 线程安全原理简单分析</p>
+<p>AtomicInteger 类的部分源码：</p>
+<ul>
+<li>​    <em>// setup to use Unsafe.compareAndSwapInt for updates（更新操作时提供“比较并替换”的作用）</em></li>
+<li>​    <strong>private</strong> <strong>static</strong> <strong>final</strong> Unsafe unsafe = Unsafe.getUnsafe();</li>
+<li>​    <strong>private</strong> <strong>static</strong> <strong>final</strong> <strong>long</strong> valueOffset;</li>
+<li></li>
+<li>​    <strong>static</strong> {</li>
+<li>​        <strong>try</strong> {</li>
+<li>​            valueOffset = unsafe.objectFieldOffset</li>
+<li>​                (AtomicInteger.class.getDeclaredField(“value”));</li>
+<li>​        } <strong>catch</strong> (Exception ex) { <strong>throw</strong> <strong>new</strong> Error(ex); }</li>
+<li>​    }</li>
+<li></li>
+<li>​    <strong>private</strong> <strong>volatile</strong> <strong>int</strong> value;</li>
+</ul>
+<p>AtomicInteger 类主要利用 <strong>CAS (compare and swap) + volatile 和 native 方法来保证原子操</strong>作，从而避免 synchronized 的高开销，执行效率大为提升。</p>
+<p>CAS 的原理是拿期望的值和原本的一个值作比较，如果相同则更新成新的值。UnSafe 类的 objectFieldOffset() 方法是一个本地方法，这个方法是用来拿到“原来的值”的内存地址，返回值是 valueOffset。另外 value 是一个 volatile 变量，在内存中可见，因此 JVM 可以保证任何时刻任何线程总能拿到该变量的最新值。</p>
+<ol start="3">
+<li><h3 id="AQS-1"><a href="#AQS-1" class="headerlink" title="AQS"></a>AQS</h3></li>
+</ol>
+<p>3.1. AQS 介绍</p>
+<p>AQS 的全称为（AbstractQueuedSynchronizer），这个类在 java.util.concurrent.locks 包下面。</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5C5fe53d79aaa14509a9ec108e7271d106%5Cc5d80325e1d1.png" alt="img"></p>
+<p>AQS</p>
+<p>AQS 是一个用来构建锁和同步器的框架，使用 AQS 能简单且高效地构造出应用广泛的大量的同步器，比如我们提到的 ReentrantLock，Semaphore，其他的诸如 ReentrantReadWriteLock，SynchronousQueue，FutureTask 等等皆是基于 AQS 的。当然，我们自己也能利用 AQS 非常轻松容易地构造出符合我们自己需求的同步器。</p>
+<p>3.2.1. AQS 原理概览</p>
+<p><strong>AQS 核心思想是，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作线程，并且将共享资源设置为锁定状态。如果被请求的共享资源被占用，那么就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制 AQS 是用 CLH 队列锁实现的，即将暂时获取不到锁的线程加入到队列中。</strong></p>
+<p>CLH(Craig,Landin,and Hagersten) 队列是一个虚拟的双向队列（虚拟的双向队列即不存在队列实例，仅存在结点之间的关联关系）。AQS 是将每条请求共享资源的线程封装成一个 CLH 锁队列的一个结点（Node）来实现锁的分配。</p>
+<p>看个 AQS(AbstractQueuedSynchronizer) 原理图：</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5C2e207fbd972c4b4f87234880e3b4dfd7%5Cf7be5ccce6c1.png" alt="img"></p>
+<p>AQS原理图</p>
+<p>AQS 使用一个 int 成员变量来表示同步状态，通过内置的 FIFO 队列来完成获取资源线程的排队工作。AQS 使用 CAS 对该同步状态进行原子操作实现对其值的修改。</p>
+<ul>
+<li><strong>private</strong> <strong>volatile</strong> <strong>int</strong> state;<em>//共享变量，使用 volatile 修饰保证线程可见性</em></li>
+</ul>
+<p>状态信息通过 protected 类型的 getState，setState，compareAndSetState 进行操作</p>
+<ul>
+<li><em>//返回同步状态的当前值</em></li>
+<li><strong>protected</strong> <strong>final</strong> <strong>int</strong> <strong>getState</strong>() {  </li>
+<li>​        <strong>return</strong> state;</li>
+<li>}</li>
+<li><em>// 设置同步状态的值</em></li>
+<li><strong>protected</strong> <strong>final</strong> <strong>void</strong> <strong>setState</strong>(<strong>int</strong> newState) { </li>
+<li>​        state = newState;</li>
+<li>}</li>
+<li><em>//原子地（CAS 操作）将同步状态值设置为给定值 update 如果当前同步状态的值等于 expect（期望值）</em></li>
+<li><strong>protected</strong> <strong>final</strong> <strong>boolean</strong> <strong>compareAndSetState</strong>(<strong>int</strong> expect, <strong>int</strong> update) {</li>
+<li>​        <strong>return</strong> unsafe.compareAndSwapInt(<strong>this</strong>, stateOffset, expect, update);</li>
+<li>}</li>
+</ul>
+<p>3.2.2. AQS 对资源的共享方式</p>
+<p><strong>AQS 定义两种资源共享方式</strong></p>
+<ul>
+<li><p><strong>Exclusive</strong>（独占）：只有一个线程能执行，如 ReentrantLock。又可分为公平锁和非公平锁：</p>
+</li>
+<li><ul>
+<li>公平锁：按照线程在队列中的排队顺序，先到者先拿到锁</li>
+<li>非公平锁：当线程要获取锁时，无视队列顺序直接去抢锁，谁抢到就是谁的</li>
 </ul>
 </li>
+<li><p><strong>Share</strong>（共享）：多个线程可同时执行，如 Semaphore/CountDownLatch。Semaphore、CountDownLatch、 CyclicBarrier、ReadWriteLock 我们都会在后面讲到。</p>
+</li>
 </ul>
-<p>执行npm install hexo-deployer-git –save</p>
-<h1 id="常用hexo命令"><a href="#常用hexo命令" class="headerlink" title="常用hexo命令"></a>常用hexo命令</h1><p>hexo new “postName” #新建文章</p>
-<p>hexo new page “pageName” #新建页面</p>
-<p>hexo generate #生成静态页面至public目录</p>
-<p>hexo server #开启预览访问端口（默认端口4000，’ctrl + c’关闭server）</p>
-<p>hexo deploy #部署到GitHub</p>
-<p>hexo help  # 查看帮助</p>
-<p>hexo version  #查看Hexo的版本</p>
-<p>hexo s -g #生成并本地预览</p>
-<p>hexo d -g #生成并上传</p>
-<h1 id="写博客工具"><a href="#写博客工具" class="headerlink" title="写博客工具"></a>写博客工具</h1><p>推荐 Visual Studio Code</p>
-<h1 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h1><p>liushijiexy.github.io</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa" target="_blank" rel="noopener">http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa</a></p>
+<p>ReentrantReadWriteLock 可以看成是组合式，因为 ReentrantReadWriteLock 也就是读写锁允许多个线程同时对某一资源进行读。</p>
+<p>不同的自定义同步器争用共享资源的方式也不同。自定义同步器在实现时只需要实现共享资源 state 的获取与释放方式即可，至于具体线程等待队列的维护（如获取资源失败入队/唤醒出队等），AQS 已经在顶层实现好了。</p>
+<p>3.2.3. AQS 底层使用了模板方法模式</p>
+<p>同步器的设计是基于模板方法模式的，如果需要自定义同步器一般的方式是这样（模板方法模式很经典的一个应用）：</p>
+<ol>
+<li>使用者继承 AbstractQueuedSynchronizer 并重写指定的方法。（这些重写方法很简单，无非是对于共享资源 state 的获取和释放）</li>
+<li>将 AQS 组合在自定义同步组件的实现中，并调用其模板方法，而这些模板方法会调用使用者重写的方法。</li>
+</ol>
+<p>这和我们以往通过实现接口的方式有很大区别，这是模板方法模式很经典的一个运用。</p>
+<p><strong>AQS 使用了模板方法模式，自定义同步器时需要重写下面几个 AQS 提供的模板方法：</strong></p>
+<ul>
+<li>isHeldExclusively()<em>//该线程是否正在独占资源。只有用到 condition 才需要去实现它。</em></li>
+<li>tryAcquire(<strong>int</strong>)<em>//独占方式。尝试获取资源，成功则返回 true，失败则返回 false。</em></li>
+<li>tryRelease(<strong>int</strong>)<em>//独占方式。尝试释放资源，成功则返回 true，失败则返回 false。</em></li>
+<li>tryAcquireShared(<strong>int</strong>)<em>//共享方式。尝试获取资源。负数表示失败；0 表示成功，但没有剩余可用资源；正数表示成功，且有剩余资源。</em></li>
+<li>tryReleaseShared(<strong>int</strong>)<em>//共享方式。尝试释放资源，成功则返回 true，失败则返回 false。</em></li>
+</ul>
+<p>默认情况下，每个方法都抛出 UnsupportedOperationException。 这些方法的实现必须是内部线程安全的，并且通常应该简短而不是阻塞。AQS 类中的其他方法都是 final ，所以无法被其他类使用，只有这几个方法可以被其他类使用。</p>
+<p>以 ReentrantLock 为例，state 初始化为 0，表示未锁定状态。A 线程 lock() 时，会调用 tryAcquire() 独占该锁并将 state+1。此后，其他线程再 tryAcquire() 时就会失败，直到 A 线程 unlock() 到 state=0（即释放锁）为止，其它线程才有机会获取该锁。当然，释放锁之前，A 线程自己是可以重复获取此锁的（state 会累加），这就是可重入的概念。但要注意，获取多少次就要释放多么次，这样才能保证 state 是能回到零态的。</p>
+<p>再以 CountDownLatch 以例，任务分为 N 个子线程去执行，state 也初始化为 N（注意 N 要与线程个数一致）。这 N 个子线程是并行执行的，每个子线程执行完后 countDown() 一次，state 会 CAS(Compare and Swap) 减 1。等到所有子线程都执行完后 (即 state=0)，会 unpark() 主调用线程，然后主调用线程就会从 await() 函数返回，继续后余动作。</p>
+<p>一般来说，自定义同步器要么是独占方法，要么是共享方式，他们也只需实现tryAcquire-tryRelease、tryAcquireShared-tryReleaseShared中的一种即可。但 AQS 也支持自定义同步器同时实现独占和共享两种方式，如ReentrantReadWriteLock。     </p>
+<p>3.3. AQS 组件总结</p>
+<ul>
+<li><strong>Semaphore(信号量)-允许多个线程同时访问：</strong> synchronized 和 ReentrantLock 都是一次只允许一个线程访问某个资源，Semaphore(信号量) 可以指定多个线程同时访问某个资源。</li>
+<li><strong>CountDownLatch （倒计时器）：</strong> CountDownLatch 是一个同步工具类，用来协调多个线程之间的同步。这个工具通常用来控制线程等待，它可以让某一个线程等待直到倒计时结束，再开始执行。</li>
+<li><strong>CyclicBarrier(循环栅栏)：</strong> CyclicBarrier 和 CountDownLatch 非常类似，它也可以实现线程间的技术等待，但是它的功能比 CountDownLatch 更加复杂和强大。主要应用场景和 CountDownLatch 类似。CyclicBarrier 的字面意思是可循环使用（Cyclic）的屏障（Barrier）。它要做的事情是，让一组线程到达一个屏障（也可以叫同步点）时被阻塞，直到最后一个线程到达屏障时，屏障才会开门，所有被屏障拦截的线程才会继续干活。CyclicBarrier 默认的构造方法是 CyclicBarrier(int parties)，其参数表示屏障拦截的线程数量，每个线程调用 await() 方法告诉 CyclicBarrier 我已经到达了屏障，然后当前线程被阻塞。</li>
+</ul>
 
       
 
@@ -280,7 +408,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">博客</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础</a>
         		</li>
       		
 		</ul>
@@ -292,7 +424,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/默认分类//" class="article-tag-list-link color5">默认分类</a>
+        			<a href="/categories/Java-基础//" class="article-tag-list-link color3">Java 基础</a>
         		</li>
       		
 		</ul>
@@ -347,7 +479,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/19/diyici/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%8B%EF%BC%89/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -361,15 +493,20 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/05/19/git/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/05/19/JVM(%E4%B8%8A)/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          git基本
+          JVM(上)
         
       </div>
     </a>
   
+  
+    <a href="/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%AD%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java 并发知识进阶(中)</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 

@@ -6,19 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Java 并发基础知识 | 小站博客</title>
+  <title>Java 并发基础知识 （上） | 小站博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="持续充电中">
+  <meta name="description" content="Java 并发基础知识 （上）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java 并发基础知识">
-<meta property="og:url" content="http://yoursite.com/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:title" content="Java 并发基础知识 （上）">
+<meta property="og:url" content="http://yoursite.com/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%8A%EF%BC%89/index.html">
 <meta property="og:site_name" content="小站博客">
-<meta property="og:description" content="持续充电中">
+<meta property="og:description" content="Java 并发基础知识 （上）">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-05-19T08:16:32.373Z">
-<meta property="article:modified_time" content="2020-05-19T08:16:32.373Z">
+<meta property="og:image" content="E:%5CShellExt%5Cerer961115@163.com%5Cbde32dcf987842b6936354f532916aa7%5Cc84dcedf503a.png">
+<meta property="og:image" content="E:%5CShellExt%5Cerer961115@163.com%5Cabe4fc03b3d9430880c2d6b23036ac14%5C23a7ed9a59df.png">
+<meta property="og:image" content="E:%5CShellExt%5Cerer961115@163.com%5Cc096732d8bc641e38fe10bb3f46fe6f0%5C27b9455a3777.png">
+<meta property="og:image" content="E:%5CShellExt%5Cerer961115@163.com%5C5b77df2b2a85430b821d528c246c5f7b%5C7c2a945b7661.png">
+<meta property="og:image" content="E:%5CShellExt%5Cerer961115@163.com%5Cc213dd5ca1dd41e8a23fba3cad69c506%5Ca389c1b661cc.png">
+<meta property="article:published_time" content="2020-05-19T08:16:58.000Z">
+<meta property="article:modified_time" content="2020-05-19T10:47:28.952Z">
 <meta property="article:author" content="liushijiexy">
+<meta property="article:tag" content="并发">
+<meta property="article:tag" content="基础">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="E:%5CShellExt%5Cerer961115@163.com%5Cbde32dcf987842b6936354f532916aa7%5Cc84dcedf503a.png">
   
     <link rel="alternative" href="/atom.xml" title="小站博客" type="application/atom+xml">
   
@@ -140,27 +148,228 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Java 并发基础知识" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Java 并发基础知识（上）" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Java 并发基础知识
+      Java 并发基础知识 （上）
     </h1>
   
 
         
-        <a href="/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="archive-article-date">
-  	<time datetime="2020-05-19T08:16:32.373Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-19</time>
+        <a href="/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%8A%EF%BC%89/" class="archive-article-date">
+  	<time datetime="2020-05-19T08:16:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="Java-并发基础知识"><a href="#Java-并发基础知识" class="headerlink" title="Java 并发基础知识"></a>Java 并发基础知识</h2><h3 id="什么是线程和进程"><a href="#什么是线程和进程" class="headerlink" title="什么是线程和进程?"></a>什么是线程和进程?</h3><h3 id="何为进程"><a href="#何为进程" class="headerlink" title="何为进程?"></a>何为进程?</h3><h3 id="何为线程"><a href="#何为线程" class="headerlink" title="何为线程?"></a>何为线程?</h3><h3 id="请简要描述线程与进程的关系-区别及优缺点？"><a href="#请简要描述线程与进程的关系-区别及优缺点？" class="headerlink" title="请简要描述线程与进程的关系,区别及优缺点？"></a>请简要描述线程与进程的关系,区别及优缺点？</h3><h3 id="图解进程和线程的关系"><a href="#图解进程和线程的关系" class="headerlink" title="图解进程和线程的关系"></a>图解进程和线程的关系</h3><h3 id="程序计数器为什么是私有的"><a href="#程序计数器为什么是私有的" class="headerlink" title="程序计数器为什么是私有的?"></a>程序计数器为什么是私有的?</h3><h3 id="虚拟机栈和本地方法栈为什么是私有的"><a href="#虚拟机栈和本地方法栈为什么是私有的" class="headerlink" title="虚拟机栈和本地方法栈为什么是私有的?"></a>虚拟机栈和本地方法栈为什么是私有的?</h3><h3 id="一句话简单了解堆和方法区"><a href="#一句话简单了解堆和方法区" class="headerlink" title="一句话简单了解堆和方法区"></a>一句话简单了解堆和方法区</h3><h3 id="说说并发与并行的区别"><a href="#说说并发与并行的区别" class="headerlink" title="说说并发与并行的区别?"></a>说说并发与并行的区别?</h3><h3 id="为什么要使用多线程呢"><a href="#为什么要使用多线程呢" class="headerlink" title="为什么要使用多线程呢?"></a>为什么要使用多线程呢?</h3><h3 id="使用多线程可能带来什么问题"><a href="#使用多线程可能带来什么问题" class="headerlink" title="使用多线程可能带来什么问题?"></a>使用多线程可能带来什么问题?</h3><h3 id="说说线程的生命周期和状态"><a href="#说说线程的生命周期和状态" class="headerlink" title="说说线程的生命周期和状态?"></a>说说线程的生命周期和状态?</h3><h3 id="什么是上下文切换"><a href="#什么是上下文切换" class="headerlink" title="什么是上下文切换?"></a>什么是上下文切换?</h3><h3 id="什么是线程死锁-如何避免死锁"><a href="#什么是线程死锁-如何避免死锁" class="headerlink" title="什么是线程死锁?如何避免死锁?"></a>什么是线程死锁?如何避免死锁?</h3><h3 id="认识线程死锁"><a href="#认识线程死锁" class="headerlink" title="认识线程死锁"></a>认识线程死锁</h3><h3 id="如何避免线程死锁"><a href="#如何避免线程死锁" class="headerlink" title="如何避免线程死锁?"></a>如何避免线程死锁?</h3><h3 id="说说sleep-方法和wait-方法区别和共同点"><a href="#说说sleep-方法和wait-方法区别和共同点" class="headerlink" title="说说sleep()方法和wait()方法区别和共同点?"></a>说说sleep()方法和wait()方法区别和共同点?</h3><h3 id="为什么我们调用start-方法时会执行run-方法，为什么我们不能直接调用run-方法？"><a href="#为什么我们调用start-方法时会执行run-方法，为什么我们不能直接调用run-方法？" class="headerlink" title="为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？"></a>为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？</h3><a id="more"></a>
+
+
+
+<h1 id="什么是线程和进程-1"><a href="#什么是线程和进程-1" class="headerlink" title="什么是线程和进程?"></a>什么是线程和进程?</h1><h4 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h4><ul>
+<li><p>进程是程序的一次执行过程，是系统运行程序的基本单位，因此进程是动态的。系统运行一个程序即是一个进程从创建，运行到消亡的过程。</p>
+</li>
+<li><p>在 Java 中，当我们启动 main 函数时其实就是启动了一个 JVM 的进程，而 main 函数所在的线程就是这个进程中的一个线程，也称主线程。</p>
+</li>
+</ul>
+<h4 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h4><ul>
+<li>线程与进程相似，但线程是一个比进程更小的执行单位。一个进程在其执行的过程中可以产生多个线程。与进程不同的是同类的多个线程共享进程的<strong>堆</strong>和<strong>方法区</strong>资源，但每个线程有自己的<strong>程序计数器</strong>、<strong>虚拟机栈</strong>和<strong>本地方法栈</strong>，所以系统在产生一个线程，或是在各个线程之间作切换工作时，负担要比进程小得多，也正因为如此，线程也被称为轻量级进程。</li>
+</ul>
+<h6 id="Java-程序天生就是多线程程序，我们可以通过-JMX-来看一下一个普通的-Java-程序有哪些线程，代码如下。"><a href="#Java-程序天生就是多线程程序，我们可以通过-JMX-来看一下一个普通的-Java-程序有哪些线程，代码如下。" class="headerlink" title="Java 程序天生就是多线程程序，我们可以通过 JMX 来看一下一个普通的 Java 程序有哪些线程，代码如下。"></a>Java 程序天生就是多线程程序，我们可以通过 JMX 来看一下一个普通的 Java 程序有哪些线程，代码如下。</h6><ul>
+<li><strong>public</strong> <strong>class</strong> <strong>MultiThread</strong> {</li>
+<li>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> <strong>main</strong>(String[] args) {</li>
+<li>​        <em>// 获取 Java 线程管理 MXBean</em></li>
+<li>​    ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();</li>
+<li>​        <em>// 不需要获取同步的 monitor 和 synchronizer 信息，仅获取线程和线程堆栈信息</em></li>
+<li>​        ThreadInfo[] threadInfos = threadMXBean.dumpAllThreads(<strong>false</strong>, <strong>false</strong>);</li>
+<li>​        <em>// 遍历线程信息，仅打印线程 ID 和线程名称信息</em></li>
+<li>​        <strong>for</strong> (ThreadInfo threadInfo : threadInfos) {</li>
+<li>​            System.out.println(“[“ + threadInfo.getThreadId() + “] “ + threadInfo.getThreadName());</li>
+<li>​        }</li>
+<li>​    }</li>
+<li>}</li>
+</ul>
+<ul>
+<li>[<strong>5</strong>] Attach Listener <em>//添加事件</em></li>
+<li>[<strong>4</strong>] Signal Dispatcher <em>// 分发处理给 JVM 信号的线程</em></li>
+<li>[<strong>3</strong>] Finalizer <em>//调用对象 finalize 方法的线程</em></li>
+<li>[<strong>2</strong>] Reference Handler <em>//清除 reference 线程</em></li>
+<li>[<strong>1</strong>] main <em>//main 线程,程序入口</em></li>
+</ul>
+<p>从上面的输出内容可以看出：<strong>一个 Java 程序的运行是 main 线程和多个其他线程同时运行</strong>。</p>
+<h1 id="简单说一下线程与进程的关系-区别及优缺点？"><a href="#简单说一下线程与进程的关系-区别及优缺点？" class="headerlink" title="简单说一下线程与进程的关系,区别及优缺点？"></a>简单说一下线程与进程的关系,区别及优缺点？</h1><p><strong>从 JVM 角度说进程和线程之间的关系</strong></p>
+<p>图解进程和线程的关系</p>
+<p>下图是 Java 内存区域，通过下图我们从 JVM 的角度来说一下线程和进程之间的关系。如果你对 Java 内存区域 (运行时数据区) 这部分知识不太了解的话可以阅读一下这篇文章：<a href="https://snailclimb.gitee.io/javaguide/#/docs/java/jvm/Java内存区域" target="_blank" rel="noopener">《可能是把 Java 内存区域讲的最清楚的一篇文章》</a></p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5Cbde32dcf987842b6936354f532916aa7%5Cc84dcedf503a.png" alt="img"></p>
+<p>从上图可以看出：一个进程中可以有多个线程，多个线程共享进程的<strong>堆</strong>和<strong>方法区 (JDK1.8 之后的元空间)</strong>资源，但是每个线程有自己的<strong>程序计数器</strong>、<strong>虚拟机栈</strong> 和 <strong>本地方法栈</strong>。</p>
+<p><strong>总结：</strong> <strong>线程 是 进程</strong> 划分成的<strong>更小的运行单位</strong>。线程和进程最大的<strong>不同在于基本上各进程是独立的</strong>，而各<strong>线程则不一定</strong>，因为<strong>同一进程中的线程极有可能会相互影响。线程执行开销小，但不利于资源的管理和保护；而进程正相反</strong></p>
+<p>下面是该知识点的扩展内容！</p>
+<p>下面来思考这样一个问题：为什么<strong>程序计数器</strong>、<strong>虚拟机栈</strong>和<strong>本地方法栈</strong>是线程私有的呢？为什么堆和方法区是线程共享的呢？</p>
+<h6 id="程序计数器为什么是私有的-1"><a href="#程序计数器为什么是私有的-1" class="headerlink" title="程序计数器为什么是私有的?"></a>程序计数器为什么是私有的?</h6><p><strong>程序计数器主要有下面两个作用：</strong></p>
+<ol>
+<li><strong>字节码解释器通过改变程序计数器来依次读取指令，从而实现代码的流程控制，如：顺序执行、选择、循环、异常处理</strong>。</li>
+<li><strong>在多线程的情况下，程序计数器用于记录当前线程执行的位置，从而当线程被切换回来的时候能够知道该线程上次运行到哪儿了。</strong></li>
+</ol>
+<p>需要注意的是，如果执行的是 native 方法，那么程序计数器记录的是 undefined 地址，只有执行的是 Java 代码时程序计数器记录的才是下一条指令的地址。</p>
+<p>所以，<strong>程序计数器私有主要是</strong>为了<strong>线程切换后能恢复到正确的执行位置</strong>。</p>
+<h5 id="虚拟机栈和本地方法栈为什么是私有的-1"><a href="#虚拟机栈和本地方法栈为什么是私有的-1" class="headerlink" title="虚拟机栈和本地方法栈为什么是私有的?"></a>虚拟机栈和本地方法栈为什么是私有的?</h5><ul>
+<li><strong>虚拟机栈：</strong>每个 Java 方法在执行的同时会创建一个栈帧用于存储局部变量表、操作数栈、常量池引用等信息。从方法调用直至执行完成的过程，就对应着一个栈帧在 Java 虚拟机栈中入栈和出栈的过程。</li>
+<li><strong>本地方法栈：</strong>和虚拟机栈所发挥的作用非常相似，区别是： <strong>虚拟机栈为虚拟机执行 Java 方法 （也就是字节码）服务，而本地方法栈则为虚拟机使用到的 Native 方法服务。</strong> 在 HotSpot 虚拟机中和 Java 虚拟机栈合二为一。</li>
+</ul>
+<p>所以，为了<strong>保证线程中的局部变量不被别的线程访问到</strong>，虚拟机栈和本地方法栈是线程私有的。</p>
+<h5 id="一句话简单了解堆和方法区-1"><a href="#一句话简单了解堆和方法区-1" class="headerlink" title="一句话简单了解堆和方法区"></a>一句话简单了解堆和方法区</h5><p><strong>堆和方法区是所有线程共享的资源，其中堆是进程中最大的一块内存，主要用于存放新创建的对象 (所有对象都在这里分配内存)，方法区主要用于存放已被加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。</strong></p>
+<p>说说并发与并行的区别?</p>
+<ul>
+<li><strong>并发：</strong> 同一时间段，多个任务都在执行 (单位时间内不一定同时执行)；</li>
+<li><strong>并行：</strong>单位时间内，多个任务同时执行。</li>
+</ul>
+<p>为什么要使用多线程呢?</p>
+<p>先从总体上来说：</p>
+<ul>
+<li><strong>从计算机底层来说：</strong>线程可以比作是轻量级的进程，是程序执行的最小单位,线程间的切换和调度的成本远远小于进程。另外，多核 CPU 时代意味着多个线程可以同时运行，这减少了线程上下文切换的开销。</li>
+<li><strong>从当代互联网发展趋势来说：</strong>现在的系统动不动就要求百万级甚至千万级的并发量，而多线程并发编程正是开发高并发系统的基础，利用好多线程机制可以大大提高系统整体的并发能力以及性能。</li>
+</ul>
+<p>再深入到计算机底层来探讨：</p>
+<ul>
+<li><strong>单核时代：</strong> 在单核时代多线程主要是为了提高 CPU 和 IO 设备的综合利用率。举个例子：当只有一个线程的时候会导致 CPU 计算时，IO 设备空闲；进行 IO 操作时，CPU 空闲。我们可以简单地说这两者的利用率目前都是 50%左右。但是当有两个线程的时候就不一样了，当一个线程执行 CPU 计算时，另外一个线程可以进行 IO 操作，这样两个的利用率就可以在理想情况下达到 100%了。</li>
+<li><strong>多核时代:</strong> 多核时代多线程主要是为了提高 CPU 利用率。举个例子：假如我们要计算一个复杂的任务，我们只用一个线程的话，CPU 只会一个 CPU 核心被利用到，而创建多个线程就可以让多个 CPU 核心被利用到，这样就提高了 CPU 的利用率。</li>
+</ul>
+<h5 id="使用多线程可能带来什么问题-1"><a href="#使用多线程可能带来什么问题-1" class="headerlink" title="使用多线程可能带来什么问题?"></a>使用多线程可能带来什么问题?</h5><p>并发编程的目的就是为了能提高程序的执行效率提高程序运行速度，但是并发编程并不总是能提高程序运行速度的，而且并发编程可能会遇到很多问题，比如：内存泄漏、上下文切换、死锁还有受限于硬件和软件的资源闲置问题。</p>
+<p>说说线程的生命周期和状态?</p>
+<p>Java 线程在运行的生命周期中的指定时刻只可能处于下面 6 种不同状态的其中一个状态（图源《Java 并发编程艺术》4.1.4 节）。</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5Cabe4fc03b3d9430880c2d6b23036ac14%5C23a7ed9a59df.png" alt="img"></p>
+<p>Java 线程的状态</p>
+<p>线程在生命周期中并不是固定处于某一个状态而是随着代码的执行在不同状态之间切换。Java 线程状态变迁如下图所示（图源《Java 并发编程艺术》4.1.4 节）：</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5Cc096732d8bc641e38fe10bb3f46fe6f0%5C27b9455a3777.png" alt="img"></p>
+<p>Java 线程状态变迁</p>
+<p>由上图可以看出：线程创建之后它将处于 <strong>NEW（新建）</strong> 状态，调用 start() 方法后开始运行，线程这时候处于 <strong>READY（可运行）</strong> 状态。可运行状态的线程获得了 CPU 时间片（timeslice）后就处于 <strong>RUNNING（运行）</strong> 状态。</p>
+<p>操作系统隐藏 Java 虚拟机（JVM）中的 RUNNABLE 和 RUNNING 状态，它只能看到 RUNNABLE 状态（图源：<a href="https://howtodoinjava.com/" target="_blank" rel="noopener">HowToDoInJava</a>：<a href="https://howtodoinjava.com/java/multi-threading/java-thread-life-cycle-and-thread-states/" target="_blank" rel="noopener">Java Thread Life Cycle and Thread States</a>），所以 Java 系统一般将这两个状态统称为 <strong>RUNNABLE（运行中）</strong> 状态 。</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5C5b77df2b2a85430b821d528c246c5f7b%5C7c2a945b7661.png" alt="img"></p>
+<p>RUNNABLE-VS-RUNNING</p>
+<p>当线程执行 wait()方法之后，线程进入 <strong>WAITING（等待）</strong>状态。进入等待状态的线程需要依靠其他线程的通知才能够返回到运行状态，而 <strong>TIME_WAITING(超时等待)</strong> 状态相当于在等待状态的基础上增加了超时限制，比如通过 sleep（long millis）方法或 wait（long millis）方法可以将 Java 线程置于 TIMED WAITING 状态。当超时时间到达后 Java 线程将会返回到 RUNNABLE 状态。当线程调用同步方法时，在没有获取到锁的情况下，线程将会进入到 <strong>BLOCKED（阻塞）</strong> 状态。线程在执行 Runnable 的run()方法之后将会进入到 <strong>TERMINATED（终止）</strong> 状态。</p>
+<p>什么是上下文切换?</p>
+<p>多线程编程中一般线程的个数都大于 CPU 核心的个数，而一个 CPU 核心在任意时刻只能被一个线程使用，为了让这些线程都能得到有效执行，CPU 采取的策略是为每个线程分配时间片并轮转的形式。当一个线程的时间片用完的时候就会重新处于就绪状态让给其他线程使用，这个过程就属于一次上下文切换。</p>
+<p>概括来说就是：当前任务在执行完 CPU 时间片切换到另一个任务之前会先保存自己的状态，以便下次再切换会这个任务时，可以再加载这个任务的状态。<strong>任务从保存到再加载的过程就是一次上下文切换</strong>。</p>
+<p>上下文切换通常是计算密集型的。也就是说，它需要相当可观的处理器时间，在每秒几十上百次的切换中，每次切换都需要纳秒量级的时间。所以，上下文切换对系统来说意味着消耗大量的 CPU 时间，事实上，可能是操作系统中时间消耗最大的操作。</p>
+<p>Linux 相比与其他操作系统（包括其他类 Unix 系统）有很多的优点，其中有一项就是，其上下文切换和模式切换的时间消耗非常少。</p>
+<p>什么是线程死锁?如何避免死锁?</p>
+<p>认识线程死锁</p>
+<p>多个线程同时被阻塞，它们中的一个或者全部都在等待某个资源被释放。由于线程被无限期地阻塞，因此程序不可能正常终止。</p>
+<p>如下图所示，线程 A 持有资源 2，线程 B 持有资源 1，他们同时都想申请对方的资源，所以这两个线程就会互相等待而进入死锁状态。</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5Cc213dd5ca1dd41e8a23fba3cad69c506%5Ca389c1b661cc.png" alt="img"></p>
+<p>线程死锁示意图</p>
+<p>下面通过一个例子来说明线程死锁,代码模拟了上图的死锁的情况 (代码来源于《并发编程之美》)：</p>
+<ul>
+<li><strong>public</strong> <strong>class</strong> <strong>DeadLockDemo</strong> {</li>
+<li>​    <strong>private</strong> <strong>static</strong> Object resource1 = <strong>new</strong> Object();<em>//资源 1</em></li>
+<li>​    <strong>private</strong> <strong>static</strong> Object resource2 = <strong>new</strong> Object();<em>//资源 2</em></li>
+<li></li>
+<li>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> <strong>main</strong>(String[] args) {</li>
+<li>​        <strong>new</strong> Thread(() -&gt; {</li>
+<li>​            <strong>synchronized</strong> (resource1) {</li>
+<li>​                System.out.println(Thread.currentThread() + “get resource1”);</li>
+<li>​                <strong>try</strong> {</li>
+<li>​                    Thread.sleep(1000);</li>
+<li>​                } <strong>catch</strong> (InterruptedException e) {</li>
+<li>​                    e.printStackTrace();</li>
+<li>​                }</li>
+<li>​                System.out.println(Thread.currentThread() + “waiting get resource2”);</li>
+<li>​                <strong>synchronized</strong> (resource2) {</li>
+<li>​                    System.out.println(Thread.currentThread() + “get resource2”);</li>
+<li>​                }</li>
+<li>​            }</li>
+<li>​        }, “线程 1”).start();</li>
+<li></li>
+<li>​        <strong>new</strong> Thread(() -&gt; {</li>
+<li>​            <strong>synchronized</strong> (resource2) {</li>
+<li>​                System.out.println(Thread.currentThread() + “get resource2”);</li>
+<li>​                <strong>try</strong> {</li>
+<li>​                    Thread.sleep(1000);</li>
+<li>​                } <strong>catch</strong> (InterruptedException e) {</li>
+<li>​                    e.printStackTrace();</li>
+<li>​                }</li>
+<li>​                System.out.println(Thread.currentThread() + “waiting get resource1”);</li>
+<li>​                <strong>synchronized</strong> (resource1) {</li>
+<li>​                    System.out.println(Thread.currentThread() + “get resource1”);</li>
+<li>​                }</li>
+<li>​            }</li>
+<li>​        }, “线程 2”).start();</li>
+<li>​    }</li>
+<li>}</li>
+</ul>
+<p>Output</p>
+<ul>
+<li><strong>Thread</strong>[线程 1,5,main]<strong>get</strong> resource1</li>
+<li><strong>Thread</strong>[线程 2,5,main]<strong>get</strong> resource2</li>
+<li><strong>Thread</strong>[线程 1,5,main]waiting <strong>get</strong> resource2</li>
+<li><strong>Thread</strong>[线程 2,5,main]waiting <strong>get</strong> resource1</li>
+</ul>
+<p>线程 A 通过 synchronized (resource1) 获得 resource1 的监视器锁，然后通过Thread.sleep(1000);让线程 A 休眠 1s 为的是让线程 B 得到执行然后获取到 resource2 的监视器锁。线程 A 和线程 B 休眠结束了都开始企图请求获取对方的资源，然后这两个线程就会陷入互相等待的状态，这也就产生了死锁。上面的例子符合产生死锁的四个必要条件。</p>
+<p>产生死锁必须具备以下四个条件：</p>
+<ol>
+<li><strong>互斥条件</strong>：该资源任意一个时刻只由一个线程占用。</li>
+<li><strong>请求与保持条件</strong>：一个线程因请求资源而阻塞时，对已获得的资源保持不放。</li>
+<li><strong>不剥夺条件</strong>:线程已获得的资源在末使用完之前不能被其他线程强行剥夺，只有自己使用完毕后才释放资源。</li>
+<li><strong>循环等待条件</strong>:若干线程之间形成一种头尾相接的循环等待资源关系。</li>
+</ol>
+<p>如何避免线程死锁?</p>
+<p>我们只要破坏产生死锁的四个条件中的其中一个就可以了。</p>
+<p><strong>破坏互斥条件</strong></p>
+<p>这个条件我们没有办法破坏，因为我们用锁本来就是想让他们互斥的（临界资源需要互斥访问）。</p>
+<p><strong>破坏请求与保持条件</strong></p>
+<p>一次性申请所有的资源。</p>
+<p><strong>破坏不剥夺条件</strong></p>
+<p>占用部分资源的线程进一步申请其他资源时，如果申请不到，可以主动释放它占有的资源。</p>
+<p><strong>破坏循环等待条件</strong></p>
+<p>靠按序申请资源来预防。按某一顺序申请资源，释放资源则反序释放。破坏循环等待条件。</p>
+<p>我们对线程 2 的代码修改成下面这样就不会产生死锁了。</p>
+<ul>
+<li>​        <strong>new</strong> Thread(() -&gt; {</li>
+<li>​            <strong>synchronized</strong> (resource1) {</li>
+<li>​                System.out.println(Thread.currentThread() + “get resource1”);</li>
+<li>​                <strong>try</strong> {</li>
+<li>​                    Thread.sleep(1000);</li>
+<li>​                } <strong>catch</strong> (InterruptedException e) {</li>
+<li>​                    e.printStackTrace();</li>
+<li>​                }</li>
+<li>​                System.out.println(Thread.currentThread() + “waiting get resource2”);</li>
+<li>​                <strong>synchronized</strong> (resource2) {</li>
+<li>​                    System.out.println(Thread.currentThread() + “get resource2”);</li>
+<li>​                }</li>
+<li>​            }</li>
+<li>​        }, “线程 2”).start();</li>
+</ul>
+<p>Output</p>
+<ul>
+<li><strong>Thread</strong>[线程 1,5,main]<strong>get</strong> resource1</li>
+<li><strong>Thread</strong>[线程 1,5,main]waiting <strong>get</strong> resource2</li>
+<li><strong>Thread</strong>[线程 1,5,main]<strong>get</strong> resource2</li>
+<li><strong>Thread</strong>[线程 2,5,main]<strong>get</strong> resource1</li>
+<li><strong>Thread</strong>[线程 2,5,main]waiting <strong>get</strong> resource2</li>
+<li><strong>Thread</strong>[线程 2,5,main]<strong>get</strong> resource2</li>
+<li></li>
+<li><strong>Process</strong> finished with exit code 0</li>
+</ul>
+<p>我们分析一下上面的代码为什么避免了死锁的发生?</p>
+<p>线程 1 首先获得到 resource1 的监视器锁,这时候线程 2 就获取不到了。然后线程 1 再去获取 resource2 的监视器锁，可以获取到。然后线程 1 释放了对 resource1、resource2 的监视器锁的占用，线程 2 获取到就可以执行了。这样就破坏了破坏循环等待条件，因此避免了死锁。</p>
+<p><strong>说说sleep()方法和wait()方法区别和共同点?</strong></p>
+<ul>
+<li>两者最主要的区别在于：<strong>sleep方法没有释放锁，而wait方法释放了锁</strong> 。</li>
+<li>两者都可以暂停线程的执行。</li>
+<li>Wait通常被用于线程间交互/通信，sleep通常被用于暂停执行。</li>
+<li>wait()方法被调用后，线程不会自动苏醒，需要别的线程调用同一个对象上的notify()或者notifyAll()方法。sleep()方法执行完成后，线程会自动苏醒。</li>
+</ul>
+<p>为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？</p>
+<p>这是另一个非常经典的java多线程面试问题，而且在面试中会经常被问到。很简单，但是很多人都会答不上来！</p>
+<p>new一个Thread，线程进入了新建状态;调用start()方法，会启动一个线程并使线程进入了就绪状态，当分配到时间片后就可以开始运行了。 start()会执行线程的相应准备工作，然后自动执行run()方法的内容，这是真正的多线程工作。 而直接执行run()方法，会把run方法当成一个main线程下的普通方法去执行，并不会在某个线程中执行它，所以这并不是多线程工作。</p>
+<p><strong>总结： 调用start方法方可启动线程并使线程进入就绪状态，而run方法只是thread的一个普通方法调用，还是在主线程里执行。</strong></p>
+
       
 
       
@@ -199,7 +408,33 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java-基础//" class="article-tag-list-link color3">Java 基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
 
@@ -249,7 +484,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%8A%EF%BC%89/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -263,11 +498,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/05/19/Untitled/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/05/19/Java%20%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%AD%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Java 并发基础知识
+          Java 并发知识进阶(中)
         
       </div>
     </a>
@@ -412,10 +647,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">java基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">集合</a>
               </li>
              
@@ -437,6 +668,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">容器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">JVM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">虚拟机</a>
               </li>
             
             <div class="clearfix"></div>

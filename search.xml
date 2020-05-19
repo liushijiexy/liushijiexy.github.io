@@ -177,4 +177,230 @@
         <tag>git</tag>
       </tags>
   </entry>
+  <entry>
+    <title>java基础常识</title>
+    <url>/2020/05/19/JavaBash/</url>
+    <content><![CDATA[<h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><ul>
+<li><p>Java 简介</p>
+</li>
+<li><p>JDK  和  JRE JVM 三者的关系区别 ！；</p>
+</li>
+<li><p>免费方务；</p>
+</li>
+<li><p>可以随</p>
+</li>
+<li><p>数据绝</p>
+</li>
+</ul>
+<a id="more"></a>
+
+
+
+<h1 id="Java-简介"><a href="#Java-简介" class="headerlink" title="Java 简介"></a>Java 简介</h1><h1 id="JDK-和-JRE-JVM-三者的关系区别-！"><a href="#JDK-和-JRE-JVM-三者的关系区别-！" class="headerlink" title="JDK  和  JRE JVM 三者的关系区别 ！"></a>JDK  和  JRE JVM 三者的关系区别 ！</h1><h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h2><pre><code>Java虚拟机（JVM）是运行 Java 字节码的虚拟机。JVM有针对不同系统的特定实现（Windows，Linux，macOS），目的是使用相同的字节码，它们都会给出相同的结果。字节码和不同系统的 JVM 实现是 Java 语言“一次编译，随处可以运行”的关键所在。</code></pre><h2 id="JDK-和-JRE"><a href="#JDK-和-JRE" class="headerlink" title="JDK 和 JRE"></a>JDK 和 JRE</h2><pre><code>JDK是Java Development Kit，它是功能齐全的Java SDK。它拥有JRE所拥有的一切，还有编译器（javac）和工具（如javadoc和jdb）。它能够创建和编译程序。 
+JRE 是 Java运行时环境。它是运行已编译 Java 程序所需的所有内容的集合，包括 Java虚拟机（JVM），Java类库，java命令和其他的一些基础构件。但是，它不能用于创建新程序。</code></pre><p>如果你只是为了<strong>运行一下 Java 程序的话，那么你只需要安装 JRE 就可以了</strong>。如果你需要进行一些 <strong>Java 编程方面的工作，那么你就需要安装JDK了</strong>。但是，这不是绝对的。有时，即使您不打算在计算机上进行任何Java开发，仍然需要安装JDK。例如，如果**要使用JSP部署Web应用程序，那么从技术上讲，您只是在应用程序服务器中运行Java程序。那你为什么需要JDK呢？因为应用程序服务器会将 JSP 转换为 Java servlet，并且需要使用 JDK 来编译 servlet。</p>
+<h1 id="Java和C-的区别"><a href="#Java和C-的区别" class="headerlink" title="Java和C++的区别?"></a>Java和C++的区别?</h1><ol>
+<li>都是<strong>面向对象</strong>的语言，都支持<strong>封装、继承和多态</strong>；</li>
+<li>Java 不提供指针来直接访问<strong>内存</strong>，程序内存更加安全；</li>
+<li>Java 的<strong>类是单继承</strong>的，<strong>C++ 支持多重继承</strong>；虽然 Java 的类不可以多继承，但是<strong>接口可以多继承</strong>；</li>
+<li><strong>Java 有自动内存管理机制</strong>，不需要程序员手动释放无用内存。</li>
+</ol>
+<h1 id="重载和重写的区别-构造器-Constructor-是否可被-override"><a href="#重载和重写的区别-构造器-Constructor-是否可被-override" class="headerlink" title="重载和重写的区别?构造器 Constructor 是否可被 override?"></a>重载和重写的区别?构造器 Constructor 是否可被 override?</h1><ul>
+<li>重载： 发生在同一个类中，方法名必须相同，参数类型不同、个数不同、顺序不同，方法返回值和访问修饰符可以不同，发生在编译时。 　　</li>
+<li>重写： 发生在父子类中，方法名、参数列表必须相同，返回值范围小于等于父类，抛出的异常范围小于等于父类，访问修饰符范围大于等于父类；如果父类方法访问修饰符为 private 则子类就不能重写该方法。<br>在讲继承的时候我们就知道父类的私有属性和构造方法并不能被继承，所以 <strong>Constructor 也就不能被 override（重写）</strong>,但是<strong>可以 overload（重载）</strong>,所以你可以看到一个类中有多个构造函数的情况。</li>
+</ul>
+<h1 id="谈谈Java-面向对象编程三大特性-封装-继承-多态"><a href="#谈谈Java-面向对象编程三大特性-封装-继承-多态" class="headerlink" title="谈谈Java 面向对象编程三大特性: 封装 继承 多态"></a>谈谈Java 面向对象编程三大特性: 封装 继承 多态</h1><ol>
+<li><h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p> 封装把一个对象的<strong>属性私有化，同时提供一些可以被外界访问的属性的方法</strong>，如果属性不想被外界访问，我们大可不必提供方法给外界访问。但是如果一个类没有提供给外界访问的方法，那么这个类也没有什么意义了。</p>
+</li>
+<li><h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p> <strong>继承是使用已存在的类的定义作为基础建立新类的技术</strong>，新类的定义可以<strong>增加新的数据或新的功能，也可以用父类的功能，但不能选择性地继承父类</strong>。通过使用继承我们能够非常方便地<strong>复用</strong>以前的代码。</p>
+</li>
+<li><h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p> 所谓多态就是指<strong>程序中定义的引用变量所指向的具体类型</strong>和<strong>通过该引用变量发出的方法调用在编程时并不确定</strong>，而是在<strong>程序运行期间才确定</strong>，即<strong>一个引用变量到底会指向哪个类的实例对象，该引用变量发出的方法调用到底是哪个类中实现的方法，必须在由程序运行期间才能决定</strong>。<br>在Java中有<strong>两种形式</strong>可以实现多态：**继承（多个子类对同一方法的重写）和接口（实现接口并覆盖接口中同一方法）。</p>
+</li>
+</ol>
+<p>关于继承如下 3 点请记住：<br>子类拥有父类对象所有的属性和方法（包括私有属性和私有方法），但是父类中的<strong>私有属性和方法子类</strong>是无法访问，<strong>只是拥有</strong>。<br>子类可以<strong>拥有自己属性和方法，即子类可以对父类进行扩展</strong>。<br>子类可以用自己的方式实现父类的方法。（以后介绍）。</p>
+<h1 id="String-str-“-abcd-“-与-String-str1-new-String-“acbd”-一样吗？-str-和-str1-相等吗？"><a href="#String-str-“-abcd-“-与-String-str1-new-String-“acbd”-一样吗？-str-和-str1-相等吗？" class="headerlink" title="String  str = “ abcd “  与  String str1=new String(“acbd”) 一样吗？ str 和 str1 相等吗？"></a>String  str = “ abcd “  与  String str1=new String(“acbd”) 一样吗？ str 和 str1 相等吗？</h1><p>这两种不同的创建方法是有差别的。</p>
+<ul>
+<li><p>第一种方式先检查字符串<strong>常量池</strong>中有没有”abcd”，如果字符串常量池中<strong>没有，则创建一个</strong>，然后<strong>str指向</strong>字符串常量池中的对象，如<strong>果有</strong>，则<strong>直</strong>接将<strong>str指向字符串常量池</strong>中的”abcd””；</p>
+</li>
+<li><p>第<strong>二种方式是直接在堆内存空间创建一个新的对象</strong>。</p>
+</li>
+<li><p><strong>推荐使用第一种方式创建字符串</strong>。</p>
+<p><strong>str和str1不相等，因为一个是堆内存中的String对象一个是常量池中的String对象</strong>。</p>
+</li>
+</ul>
+<h1 id="String-StringBuffer-和-StringBuilder-的区别是什么-String-为什么是不可变的"><a href="#String-StringBuffer-和-StringBuilder-的区别是什么-String-为什么是不可变的" class="headerlink" title="String StringBuffer 和 StringBuilder 的区别是什么?String 为什么是不可变的?"></a>String StringBuffer 和 StringBuilder 的区别是什么?String 为什么是不可变的?</h1><h2 id="可变性"><a href="#可变性" class="headerlink" title="可变性"></a>可变性</h2><ul>
+<li>简单的来说：String 类中使用 <strong>final</strong> 关键字修饰字符数组来保存字符串，<code>private　final　char　value[]</code>，所以 String 对象是不可变的。而StringBuilder 与 StringBuffer 都继承自 <strong>AbstractStringBuilder 类</strong>，在 AbstractStringBuilder 中<strong>也是使用字符数组保存字符串char[]value 但是没有用 final 关键字修饰</strong>，所以这两种对象都是可变的。</li>
+<li>StringBuilder 与 StringBuffer 的构造方法都是<strong>调用父类构造方法</strong>也就是 <strong>AbstractStringBuilder 实现</strong>的</li>
+</ul>
+<h2 id="线程安全性"><a href="#线程安全性" class="headerlink" title="线程安全性"></a><strong>线程安全性</strong></h2><ul>
+<li><p>String 中的对象是不可变的，也就可以理解为常量，线程安全。</p>
+</li>
+<li><p>AbstractStringBuilder 是 StringBuilder 与 StringBuffer 的公共父类，定义了一些字符串的基本操作，如 expandCapacity、append、insert、indexOf 等公共方法。</p>
+</li>
+<li><p><strong>StringBuffer 对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的</strong>。<strong>StringBuilder 并没有对方法进行加同步锁，所以是非线程安全的。</strong></p>
+</li>
+</ul>
+<h2 id="性能"><a href="#性能" class="headerlink" title="性能"></a><strong>性能</strong></h2><p>每次对 <strong>String 类型</strong>进行<strong>改变</strong>的时候，都会<strong>生成一个新的 String 对象</strong>，然后将<strong>指针指向新的</strong> String 对象。<strong>StringBuffer 每次都会对 StringBuffer 对象本身进行操作，</strong>而不是生成新的对象并改变对象引用。相同情况下使用 <strong>StringBuilder</strong> 相比使用 <strong>StringBuffer</strong> 仅能获得 10%~15% 左右的<strong>性能提升</strong>，但却要冒多线程不安全的风险。</p>
+<h2 id="对于三者使用的总结："><a href="#对于三者使用的总结：" class="headerlink" title="对于三者使用的总结："></a><strong>对于三者使用的总结：</strong></h2><ol>
+<li>操作<strong>少量的数据</strong>: 适用<strong>String</strong></li>
+<li><strong>单线程操作字符串缓冲区下操作大量数据</strong>: 适用<strong>StringBuilder</strong></li>
+<li><strong>多线程操作字符串缓冲区下操作大量数据</strong>: 适用<strong>StringBuffer</strong></li>
+</ol>
+<h1 id="接口和抽象类的区别是什么？"><a href="#接口和抽象类的区别是什么？" class="headerlink" title="接口和抽象类的区别是什么？"></a>接口和抽象类的区别是什么？</h1><ol>
+<li>接口的方法默认是 public，所有方法在接口中不能有实现(Java 8 开始接口方法可以有默认实现），而抽象类可以有非抽象的方法。</li>
+<li>接口中的实例变量默认是 final 类型的，而抽象类中则不一定。</li>
+<li>一个类可以实现多个接口，但最多只能实现一个抽象类。</li>
+<li>一个类实现接口的话要实现接口的所有方法，而抽象类不一定。</li>
+<li>接口不能用 new 实例化，但可以声明，但是必须引用一个实现该接口的对象。从设计层面来说，抽象是对类的抽象，是一种模板设计，而接口是对行为的抽象，是一种行为的规范。</li>
+</ol>
+<p>备注:在JDK8中，接口也可以定义静态方法，可以直接用接口名调用。实现类和实现是不可以调用的。如果同时实现两个接口，接口中定义了一样的默认方法，则必须重写，不然会报错。</p>
+<h1 id="抽象类必须要有抽象方法吗？"><a href="#抽象类必须要有抽象方法吗？" class="headerlink" title="抽象类必须要有抽象方法吗？"></a><strong>抽象类必须要有抽象方法吗？</strong></h1><p>抽象类中不一定包含抽象方法，但是包含抽象方法的类一定要被声明为抽象类。</p>
+<h1 id="抽象类能使用-final-修饰吗？"><a href="#抽象类能使用-final-修饰吗？" class="headerlink" title="抽象类能使用 final 修饰吗？"></a><strong>抽象类能使用 final 修饰吗？</strong></h1><p>抽象类不能用final来修饰。当用final修饰一个类时，表明这个类不能被继承。final类中的所有成员方法都会被隐式地指定为final方法，这明显违背了抽象类存在的意义了。</p>
+<h1 id="与-equals-1"><a href="#与-equals-1" class="headerlink" title="== 与 equals(1)"></a>== 与 equals(1)</h1><p><strong>==</strong> : 它的作用是<strong>判断</strong>两个对象的<strong>地址</strong>是不是相等。即，判断两<strong>个对象</strong>是不是同一<strong>个对</strong>象(<strong>基本数据类型</strong>==比较的是<strong>值</strong>，<strong>引用数据类型</strong>==比较的是<strong>内存地</strong>址)。</p>
+<p><strong>equals()</strong> : 它的作用也是判断两个对象是否相等。但它一般有两种使用情况：</p>
+<ul>
+<li>情况1：类没有覆盖 equals() 方法。则通过 equals() 比较该类的两个对象时，等价于通过“==”比较这两个对象。</li>
+<li>情况2：类覆盖了 equals() 方法。一般，我们都覆盖 equals() 方法来两个对象的内容相等；若它们的内容相等，则返回 true (即，认为这两个对象相等)。</li>
+</ul>
+<hr>
+<h1 id="hashCode-与-equals-重要"><a href="#hashCode-与-equals-重要" class="headerlink" title="hashCode 与 equals (重要)"></a>hashCode 与 equals (重要)</h1><p>面试官可能会问你：“你重写过 hashcode 和 equals 么，为什么重写equals时必须重写hashCode方法？”</p>
+<h2 id="hashCode（）介绍"><a href="#hashCode（）介绍" class="headerlink" title="hashCode（）介绍"></a>hashCode（）介绍</h2><p><strong>hashCode() 的作用是获取哈希码</strong>，也称为散列码；<strong>它实际上是返回一个int整数</strong>。<strong>这个哈希码的作用是确定该对象在哈希表中的索引位置</strong>。<strong>hashCode() 定义在JDK的Object**</strong>.java<strong>中，这就意味着Java中的</strong>任何类<strong>都</strong>包含有hashCode() 函数**。</p>
+<p>散列表存储的是键值对(key-value)，它的特点是：能根据“键”快速的检索出对应的“值”。这其中就利用到了散列码！（可以快速找到所需要的对象）</p>
+<p>为什么要有 hashCode</p>
+<p><strong>我们先以“HashSet 如何检查重复”为例子来说明为什么要有 hashCode：</strong> 当你把对象加入 HashSet 时，<strong>HashSet 会先计算对象的 hashcode 值来判断对象加入的位置</strong>，<strong>同时</strong>也会与其他<strong>已经加入</strong>的对象的 hashcode <strong>值作比较</strong>，如果<strong>没有相符</strong>的hashcode，HashSet<strong>会假设对象没有重复出现</strong>。但是如果发现<strong>有相同</strong> hashcode <strong>值</strong>的对象，这时会<strong>调用 equals（</strong>）方法来检查 hashcode 相等的对象<strong>是否真的</strong>相同。如果<strong>两者相同</strong>，<strong>HashSet</strong> 就<strong>不会让其加入</strong>操作成功。如果<strong>不同</strong>的话，就会<strong>重新散列到其他位</strong>置。（摘自我的Java启蒙书《Head first java》第二版）。这样我们就大大减少了 equals 的次数，相应就大大提高了执行速度。</p>
+<p>通过我们可以看出：<strong>hashCode() 的作用就是获取哈希码，也称为散列码；它实际上是返回一个int整数。这个哈希码的作用是确定该对象在哈希表中的索引位置。</strong>hashCode()在散列表中才有用，在其它情况下没用。在散列表中hashCode() 的作用是获取对象的散列码，进而确定该对象在散列表中的位置。</p>
+<h2 id="hashCode（）与equals（）的相关规定"><a href="#hashCode（）与equals（）的相关规定" class="headerlink" title="hashCode（）与equals（）的相关规定"></a>hashCode（）与equals（）的相关规定</h2><ol>
+<li>如果两个对象相等，则hashcode一定也是相同的;</li>
+<li>两个对象相等,对两个对象分别调用equals方法都返回true;</li>
+<li>两个对象有相同的hashcode值，它们也不一定是相等的（不同的对象也可能产生相同的hashcode，概率性问题）;</li>
+<li><strong>因此，equals 方法被覆盖过，则 hashCode 方法也必须被覆盖</strong></li>
+<li>hashCode() 的默认行为是对堆上的对象产生独特值。如果没有重写 hashCode()，则该 class 的两个对象无论如何都不会相等（即使这两个对象指向相同的数据）</li>
+</ol>
+<h1 id="什么是反射机制？反射机制的应用场景有哪些？"><a href="#什么是反射机制？反射机制的应用场景有哪些？" class="headerlink" title="什么是反射机制？反射机制的应用场景有哪些？"></a>什么是反射机制？反射机制的应用场景有哪些？</h1><h2 id="反射机制介绍"><a href="#反射机制介绍" class="headerlink" title="反射机制介绍"></a>反射机制介绍</h2><p>JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。</p>
+<p>静态编译和动态编译</p>
+<ul>
+<li><strong>静态编译：</strong>在编译时确定类型，绑定对象</li>
+<li><strong>动态编译：</strong>运行时确定类型，绑定对象</li>
+</ul>
+<p>反射机制优缺点</p>
+<ul>
+<li><strong>优点：</strong> 运行期类型的判断，动态加载类，提高代码灵活度。</li>
+<li><strong>缺点：</strong> 性能瓶颈：反射相当于一系列解释操作，通知 JVM 要做的事情，性能比直接的java代码要慢很多。</li>
+</ul>
+<h2 id="反射的应用场景"><a href="#反射的应用场景" class="headerlink" title="反射的应用场景"></a>反射的应用场景</h2><h3 id="反射是框架设计的灵魂。"><a href="#反射是框架设计的灵魂。" class="headerlink" title="反射是框架设计的灵魂。"></a>反射是框架设计的灵魂。</h3><p>在我们平时的项目开发过程中，基本上很少会直接使用到反射机制，但这不能说明反射机制没有用，实际上有很多设计、开发都与反射机制有关，例如模块化的开发，通过反射去调用对应的字节码；动态代理设计模式也采用了反射机制，还有我们日常使用的 Spring／Hibernate 等框架也大量使用到了反射机制。</p>
+<p>举例：①我们在使用JDBC连接数据库时使用Class.forName()通过反射加载数据库的驱动程序；②Spring框架也用到很多反射机制，最经典的就是xml的配置模式。Spring 通过 XML 配置模式装载 Bean 的过程：1) 将程序内所有 XML 或 Properties 配置文件加载入内存中;</p>
+<p>2)Java类里面解析xml或properties里面的内容，得到对应实体类的字节码字符串以及相关的属性信息; 3)使用反射机制，根据这个字符串获得某个类的Class实例; 4)动态配置实例的属性</p>
+<h1 id="为什么-Java-中只有值传递？"><a href="#为什么-Java-中只有值传递？" class="headerlink" title="为什么 Java 中只有值传递？"></a>为什么 Java 中只有值传递？</h1><p><strong>按值调用(call by value)表示方法接收的是调用者提供的值，而按引用调用（call by reference)表示方法接收的是调用者提供的变量地址。一个方法可以修改传递引用所对应的变量值，而不能修改传递值调用所对应的变量值。</strong> 它用来描述各种程序设计语言（不只是Java)中方法参数传递方式。</p>
+<p><strong>Java程序设计语言总是采用按值调用。也就是说，方法得到的是所有参数值的一个拷贝，也就是说，方法不能修改传递给它的任何参数变量的内容。</strong></p>
+<ul>
+<li><strong>public</strong> <strong>static</strong> <strong>void</strong> <strong>main</strong>(String[] args) {</li>
+<li>​    <strong>int</strong> num1 = 10;</li>
+<li>​    <strong>int</strong> num2 = 20;</li>
+<li></li>
+<li>​    swap(num1, num2);</li>
+<li></li>
+<li>​    System.out.println(“num1 = “ + num1);</li>
+<li>​    System.out.println(“num2 = “ + num2);</li>
+<li>}</li>
+<li></li>
+<li><strong>public</strong> <strong>static</strong> <strong>void</strong> <strong>swap</strong>(<strong>int</strong> a, <strong>int</strong> b) {</li>
+<li>​    <strong>int</strong> temp = a;</li>
+<li>​    a = b;</li>
+<li>​    b = temp;</li>
+<li></li>
+<li>​    System.out.println(“a = “ + a);</li>
+<li>​    System.out.println(“b = “ + b);</li>
+<li>}</li>
+</ul>
+<p><strong>结果：</strong></p>
+<ul>
+<li>a = 20</li>
+<li>b = 10</li>
+<li>num1 = 10</li>
+<li>num2 = 20</li>
+</ul>
+<p>在swap方法中，a、b的值进行交换，并不会影响到 num1、num2。因为，a、b中的值，只是从 num1、num2 的复制过来的。也就是说，a、b相当于num1、num2 的副本，副本的内容无论怎么修改，都不会影响到原件本身。</p>
+<p><strong>通过上面例子，我们已经知道了一个方法不能修改一个基本数据类型的参数，而对象引用作为参数就不一样</strong></p>
+<ul>
+<li>​        <strong>int</strong>[] arr = { 1, 2, 3, 4, 5 };</li>
+<li>​        System.out.println(arr[0]);</li>
+<li>​        change(arr);</li>
+<li>​        System.out.println(arr[0]);</li>
+<li>​    }</li>
+<li></li>
+<li>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> <strong>change</strong>(<strong>int</strong>[] array) {</li>
+<li>​        <em>// 将数组的第一个元素变为0</em></li>
+<li>​        array[0] = 0;</li>
+<li>​    }</li>
+</ul>
+<p><strong>结果：</strong></p>
+<ul>
+<li>1</li>
+<li>0</li>
+</ul>
+<p><strong>解析：</strong></p>
+<p>array 被初始化 arr 的拷贝也就是一个对象的引用，也就是说 array 和 arr 指向的时同一个数组对象。 因此，外部对引用对象的改变会反映到所对应的对象上。</p>
+<p> <strong>我们已经看到，实现一个改变对象参数状态的方法并不是一件难事。理由很简单，方法得到的是对象引用的拷贝，对象引用及其他的拷贝同时引用同一个对象。</strong></p>
+<ul>
+<li><strong>public</strong> <strong>class</strong> <strong>Test</strong> {</li>
+<li></li>
+<li>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> <strong>main</strong>(String[] args) {</li>
+<li>​        <em>// TODO Auto-generated method stub</em></li>
+<li>​        Student s1 = <strong>new</strong> Student(“小张”);</li>
+<li>​        Student s2 = <strong>new</strong> Student(“小李”);</li>
+<li>​        Test.swap(s1, s2);</li>
+<li>​        System.out.println(“s1:” + s1.getName());</li>
+<li>​        System.out.println(“s2:” + s2.getName());</li>
+<li>​    }</li>
+<li></li>
+<li>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> <strong>swap</strong>(Student x, Student y) {</li>
+<li>​        Student temp = x;</li>
+<li>​        x = y;</li>
+<li>​        y = temp;</li>
+<li>​        System.out.println(“x:” + x.getName());</li>
+<li>​        System.out.println(“y:” + y.getName());</li>
+<li>​    }</li>
+<li>}</li>
+</ul>
+<p><strong>结果：</strong></p>
+<ul>
+<li><strong>x:小李</strong></li>
+<li><strong>y:小张</strong></li>
+<li><strong>s1:小张</strong></li>
+<li><strong>s2:小李</strong></li>
+</ul>
+<p><strong>解析：</strong></p>
+<p> <strong>方法并没有改变存储在变量 s1 和 s2 中的对象引用。swap方法的参数x和y被初始化为两个对象引用的拷贝，这个方法交换的是这两个拷贝</strong></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Java程序设计语言对对象采用的不是引用调用，实际上，对象引用是按值传递的。</p>
+<h2 id="下面再总结一下Java中方法参数的使用情况："><a href="#下面再总结一下Java中方法参数的使用情况：" class="headerlink" title="下面再总结一下Java中方法参数的使用情况："></a>下面再总结一下Java中方法参数的使用情况：</h2><ul>
+<li>一个方法不能修改一个基本数据类型的参数（即数值型或布尔型）。</li>
+<li>一个方法可以改变一个对象参数的状态。</li>
+<li>一个方法不能让对象参数引用一个新的对象。</li>
+</ul>
+<p>参考：《Java核心技术卷Ⅰ》基础知识第十版第四章4.5小节</p>
+<h1 id="Java-中-IO-流分为几种？BIO-NIO-AIO-有什么区别？"><a href="#Java-中-IO-流分为几种？BIO-NIO-AIO-有什么区别？" class="headerlink" title="Java 中 IO 流分为几种？BIO,NIO,AIO 有什么区别？"></a>Java 中 IO 流分为几种？BIO,NIO,AIO 有什么区别？</h1><h2 id="java-中-IO-流分为几种？"><a href="#java-中-IO-流分为几种？" class="headerlink" title="java 中 IO 流分为几种？"></a>java 中 IO 流分为几种？</h2><ul>
+<li>按照流的<strong>流向</strong>分，可以分为<strong>输入流</strong>和<strong>输出流</strong>；</li>
+<li>按照操作<strong>单元</strong>划分，可以划分为<strong>字节流</strong>和<strong>字符流</strong>；</li>
+<li>按照流的<strong>角色</strong>划分为<strong>节点流</strong>和<strong>处理流</strong>。</li>
+</ul>
+<p>Java Io流共涉及40多个类，这些类看上去很杂乱，但实际上很有规则，而且彼此之间存在非常紧密的联系， Java I0流的40多个类都是从如下4个抽象类基类中派生出来的。</p>
+<ul>
+<li>InputStream/Reader: 所有的输入流的基类，前者是字节输入流，后者是字符输入流。</li>
+<li>OutputStream/Writer: 所有输出流的基类，前者是字节输出流，后者是字符输出流。</li>
+</ul>
+<p>BIO,NIO,AIO 有什么区别？</p>
+<ul>
+<li><strong>BIO (Blocking I/O):</strong> <strong>同步阻塞I/O模式</strong>，<strong>数据的读取写入必须阻塞在一个线程内等待其完成。</strong>在活动连接数不是特别高（小于单机1000）的情况下，这种模型是比较不错的，可以让每一个连接专注于自己的 I/O 并且编程模型简单，也不用过多考虑系统的过载、限流等问题。线程池本身就是一个天然的漏斗，可以缓冲一些系统处理不了的连接或请求。但是，当面对十万甚至百万级连接的时候，传统的 BIO 模型是无能为力的。因此，我们需要一种更高效的 I/O 处理模型来应对更高的并发量。</li>
+<li><strong>NIO (New I/O):</strong> <strong>NIO是一种同步非阻塞的I/O模型</strong>，在Java 1.4 中引入了NIO框架，对应 java.nio 包，提供了 Channel , Selector，Buffer等抽象。NIO中的N可以理解为Non-blocking，不单纯是New。<strong>它支持面向缓冲的，基于通道的I/O操作方法</strong>。 NIO提供了与传统BIO模型中的 Socket 和 ServerSocket 相对应的 SocketChannel 和 ServerSocketChannel 两种不同的套接字通道实现,两种通道都支持阻塞和非阻塞两种模式。阻塞模式使用就像传统中的支持一样，<strong>比较简单，但是性能和可靠性都不好；非阻塞模式正好与之相反。对于低负载、低并发的应用程序，可以使用同步阻塞I/O来提升开发速率和更好的维护性；对于高负载、高并发的（网络）应用，应使用 NIO 的非阻塞模式来开发</strong></li>
+<li><strong>AIO (Asynchronous I/O):</strong> AIO 也就是 NIO 2。在 Java 7 中引入了 NIO 的改进版 NIO 2,<strong>它是异步非阻塞的IO模型</strong>。<strong>异步 IO 是基于事件和回调机制实现的</strong>，<strong>也就是应用操作之后会直接返回，不会堵塞在那里，当后台处理完成，操作系统会通知相应的线程进行后续的操作</strong>。AIO 是异步IO的缩写，虽然 NIO 在网络操作中，提供了非阻塞的方法，但是 NIO 的 IO 行为还是同步的。对于 NIO 来说，我们的业务线程是在 IO 操作准备好时，得到通知，接着就由这个线程自行进行 IO 操作，IO操作本身是同步的。查阅网上相关资料，我发现就目前来说 AIO 的应用还不是很广泛，Netty 之前也尝试使用过 AIO，不过又放弃了。</li>
+</ul>
+<p>​                                                    </p>
+<p>​                                                            <u><strong>谢谢观看，记得巩固哦</strong></u></p>
+]]></content>
+      <categories>
+        <category>java 基础</category>
+      </categories>
+      <tags>
+        <tag>java基础</tag>
+      </tags>
+  </entry>
 </search>

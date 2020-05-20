@@ -1694,4 +1694,571 @@
         <tag>基础</tag>
       </tags>
   </entry>
+  <entry>
+    <title>数据库常见问题</title>
+    <url>/2020/05/20/MySQL%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用git：</p>
+<ul>
+<li>概述；</li>
+<li>事务；</li>
+<li>可以随</li>
+<li>数据绝</li>
+</ul>
+<a id="more"></a>
+
+<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><p>MySQL 是一种关系型数据库，在Java企业级开发中非常常用，因为 MySQL 是开源免费的，并且方便扩展。阿里巴巴数据库系统也大量用到了 MySQL，因此它的稳定性是有保障的。MySQL是开放源代码的，因此任何人都可以在 GPL(General Public License) 的许可下下载并根据个性化的需要对其进行修改。MySQL的默认端口号是<strong>3306</strong>。</p>
+<h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><h2 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务?"></a>什么是事务?</h2><p><strong>事务是逻辑上的一组操作，要么都执行，要么都不执行。</strong></p>
+<p>事务最经典也经常被拿出来说例子就是转账了。假如小里要给小明转账1000元，这个转账会涉及到两个关键操作就是：将小里的余额减少1000元，将小明的余额增加1000元。万一在这两个操作之间突然出现错误比如银行系统崩溃，导致小里余额减少而小明的余额没有增加，这样就不对了。事务就是保证这两个关键操作要么都成功，要么都要失败。</p>
+<p>事物的四大特性(ACID)介绍一下?</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5Cc40f0199927248b690b1990d0a35f4f3%5C1bcac4797d79.png" alt="img"></p>
+<p>事物的特性</p>
+<ol>
+<li><strong>原子性：</strong> 事务是最小的执行单位，不允许分割。事务的原子性确保动作要么全部完成，要么完全不起作用；</li>
+<li><strong>一致性：</strong> 执行事务前后，数据保持一致，多个事务对同一个数据读取的结果是相同的；</li>
+<li><strong>隔离性：</strong> 并发访问数据库时，一个用户的事务不被其他事务所干扰，各并发事务之间数据库是独立的；</li>
+<li><strong>持久性：</strong> 一个事务被提交之后。它对数据库中数据的改变是持久的，即使数据库发生故障也不应该对其有任何影响。</li>
+</ol>
+<p>并发事务带来哪些问题?</p>
+<p>在典型的应用程序中，多个事务并发运行，经常会操作相同的数据来完成各自的任务（多个用户对统一数据进行操作）。并发虽然是必须的，但可能会导致以下的问题。</p>
+<ul>
+<li><strong>脏读（Dirty read）:</strong> 当一个事务正在访问数据并且对数据进行了修改，而这种修改还没有提交到数据库中，这时另外一个事务也访问了这个数据，然后使用了这个数据。因为这个数据是还没有提交的数据，那么另外一个事务读到的这个数据是“脏数据”，依据“脏数据”所做的操作可能是不正确的。a是修改数据没提交到数据库b要使用这条数据但是是没有修改的数据  脏数据</li>
+<li><strong>丢失修改（Lost to modify）:</strong> 指在一个事务读取一个数据时，另外一个事务也访问了该数据，那么在第一个事务中修改了这个数据后，第二个事务也修改了这个数据。这样第一个事务内的修改结果就被丢失，因此称为丢失修改。 例如：事务1读取某表中的数据A=20，事务2也读取A=20，事务1修改A=A-1，事务2也修改A=A-1，最终结果A=19，事务1的修改被丢失。a修改  b也修改但是b把a的修改覆盖了 a数据丢失</li>
+<li><strong>不可重复读（Unrepeatableread）:</strong> 指在一个事务内多次读同一数据。在这个事务还没有结束时，另一个事务也访问该数据。那么，在第一个事务中的两次读数据之间，由于第二个事务的修改导致第一个事务两次读取的数据可能不太一样。这就发生了在一个事务内两次读到的数据是不一样的情况，因此称为不可重复读。 a重复读数据但是b吧数据更改了这时候a两次不一样 不可从复读</li>
+<li><strong>幻读（Phantom read）:</strong> 幻读与不可重复读类似。它发生在一个事务（T1）读取了几行数据，接着另一个并发事务（T2）插入了一些数据时。在随后的查询中，第一个事务（T1）就会发现多了一些原本不存在的记录，就好像发生了幻觉一样，所以称为幻读。a读 b插入了一些数据 这时候a查到了原本不存在的数据</li>
+</ul>
+<p><strong>不可重复度和幻读区别：</strong></p>
+<p>不可重复读的重点是修改，幻读的重点在于新增或者删除。</p>
+<p>例1（同样的条件, 你读取过的数据, 再次读取出来发现值不一样了 ）：事务1中的A先生读取自己的工资为 1000的操作还没完成，事务2中的B先生就修改了A的工资为2000，导 致A再读自己的工资时工资变为 2000；这就是不可重复读。</p>
+<p>例2（同样的条件, 第1次和第2次读出来的记录数不一样 ）：假某工资单表中工资大于3000的有4人，事务1读取了所有工资大于3000的人，共查到4条记录，这时事务2 又插入了一条工资大于3000的记录，事务1再次读取时查到的记录就变为了5条，这样就导致了幻读。</p>
+<h1 id="事务隔离级别，MySQL的默认隔离级别。"><a href="#事务隔离级别，MySQL的默认隔离级别。" class="headerlink" title="事务隔离级别，MySQL的默认隔离级别。"></a>事务隔离级别，MySQL的默认隔离级别。</h1><p><strong>SQL 标准定义了四个隔离级别：</strong></p>
+<ul>
+<li><strong>READ-UNCOMMITTED(读取未提交)：</strong> 最低的隔离级别，允许读取尚未提交的数据变更，<strong>可能会导致脏读、幻读或不可重复读</strong>。</li>
+<li><strong>READ-COMMITTED(读取已提交)：</strong> 允许读取并发事务已经提交的数据，<strong>可以阻止脏读，但是幻读或不可重复读仍有可能发生</strong>。</li>
+<li><strong>REPEATABLE-READ(可重复读)：</strong> 对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，<strong>可以阻止脏读和不可重复读，但幻读仍有可能发生</strong>。</li>
+<li><strong>SERIALIZABLE(可串行化)：</strong> 最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，<strong>该级别可以防止脏读、不可重复读以及幻读</strong>。</li>
+</ul>
+<p><strong>不可重复度和幻读区别：</strong></p>
+<p>不可重复读的重点是修改，幻读的重点在于新增或者删除。</p>
+<p>例1（同样的条件, 你读取过的数据, 再次读取出来发现值不一样了 ）：事务1中的A先生读取自己的工资为 1000的操作还没完成，事务2中的B先生就修改了A的工资为2000，导 致A再读自己的工资时工资变为 2000；这就是不可重复读。</p>
+<p>例2（同样的条件, 第1次和第2次读出来的记录数不一样 ）：假某工资单表中工资大于3000的有4人，事务1读取了所有工资大于3000的人，共查到4条记录，这时事务2 又插入了一条工资大于3000的记录，事务1再次读取时查到的记录就变为了5条，这样就导致了幻读。</p>
+<p>事务隔离级别有哪些?MySQL的默认隔离级别是?</p>
+<p><strong>SQL 标准定义了四个隔离级别：</strong></p>
+<ul>
+<li><strong>READ-UNCOMMITTED(读取未提交)：</strong> 最低的隔离级别，允许读取尚未提交的数据变更，<strong>可能会导致脏读、幻读或不可重复读</strong>。</li>
+<li><strong>READ-COMMITTED(读取已提交)：</strong> 允许读取并发事务已经提交的数据，<strong>可以阻止脏读，但是幻读或不可重复读仍有可能发生</strong>。</li>
+<li><strong>REPEATABLE-READ(可重复读)：</strong> 对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，<strong>可以阻止脏读和不可重复读，但幻读仍有可能发生</strong>。</li>
+<li><strong>SERIALIZABLE(可串行化)：</strong> 最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，<strong>该级别可以防止脏读、不可重复读以及幻读</strong>。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>隔离级别</th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻影读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>READ-UNCOMMITTED</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>READ-COMMITTED</td>
+<td>×</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>REPEATABLE-READ</td>
+<td>×</td>
+<td>×</td>
+<td>√</td>
+</tr>
+<tr>
+<td>SERIALIZABLE</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+</tbody></table>
+<p>MySQL InnoDB 存储引擎的默认支持的隔离级别是 <strong>REPEATABLE-READ（可重读）</strong>。我们可以通过SELECT @@tx_isolation;命令来查看</p>
+<ul>
+<li>mysql&gt; <strong>SELECT</strong> @@tx_isolation;</li>
+<li>+<em>—————–+</em></li>
+<li>| @@tx_isolation  |</li>
+<li>+<em>—————–+</em></li>
+<li>| REPEATABLE-READ |</li>
+<li>+<em>—————–+</em></li>
+</ul>
+<p>这里需要注意的是：与 SQL 标准不同的地方在于InnoDB 存储引擎在 <strong>REPEATABLE-READ（可重读）</strong>事务隔离级别下使用的是Next-Key Lock 锁算法，因此可以避免幻读的产生，这与其他数据库系统(如 SQL Server)是不同的。所以说InnoDB 存储引擎的默认支持的隔离级别是 <strong>REPEATABLE-READ（可重读）</strong> 已经可以完全保证事务的隔离性要求，即达到了 SQL标准的<strong>SERIALIZABLE(可串行化)</strong>隔离级别。</p>
+<p>因为隔离级别越低，事务请求的锁越少，所以大部分数据库系统的隔离级别都是<strong>READ-COMMITTED(读取提交内容):</strong>，但是你要知道的是InnoDB 存储引擎默认使用 <strong>REPEATABLE-READ（可重读）</strong>并不会有任何性能损失。</p>
+<p>InnoDB 存储引擎在 <strong>分布式事务</strong> 的情况下一般会用到<strong>SERIALIZABLE(可串行化)</strong>隔离级别。</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>基础</tag>
+        <tag>问题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机网络</title>
+    <url>/2020/05/19/%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[<h1 id="计算机网络基础"><a href="#计算机网络基础" class="headerlink" title="计算机网络基础"></a>计算机网络基础</h1><a id="more"></a>
+
+<h1 id="OSI与TCP-IP各层的结构与功能-都有哪些协议"><a href="#OSI与TCP-IP各层的结构与功能-都有哪些协议" class="headerlink" title="OSI与TCP/IP各层的结构与功能,都有哪些协议"></a>OSI与TCP/IP各层的结构与功能,都有哪些协议</h1><p>学习计算机网络时我们一般采用折中的办法，也就是中和 OSI 和 TCP/IP 的优点，采用一种只有五层协议的体系结构，这样既简洁又能将概念阐述清楚。</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5C4022b24541314fe88292a5028bc47175%5Cc837fbab5c9b.png" alt="img"></p>
+<p>五层协议的体系结构</p>
+<p>结合互联网的情况，自上而下地，非常简要的介绍一下各层的作用。</p>
+<h1 id="1-1-应用层"><a href="#1-1-应用层" class="headerlink" title="1.1 应用层"></a>1.1 应用层</h1><p><strong>应用层(application-layer）的任务是通过应用进程间的交互来完成特定网络应用。</strong>应用层协议定义的是应用进程（进程：主机中正在运行的程序）间的通信和交互的规则。对于不同的网络应用需要不同的应用层协议。在互联网中应用层协议很多，如<strong>域名系统DNS</strong>，支持万维网应用的 <strong>HTTP协议</strong>，支持电子邮件的 <strong>SMTP协议</strong>等等。我们把应用层交互的数据单元称为报文。</p>
+<p><strong>域名系统</strong></p>
+<p>域名系统(Domain Name System缩写 DNS，Domain Name被译为域名)是因特网的一项核心服务，它作为可以将域名和IP地址相互映射的一个分布式数据库，能够使人更方便的访问互联网，而不用去记住能够被机器直接读取的IP数串。（百度百科）例如：一个公司的 Web 网站可看作是它在网上的门户，而域名就相当于其门牌地址，通常域名都使用该公司的名称或简称。例如上面提到的微软公司的域名，类似的还有：IBM 公司的域名是 <a href="http://www.ibm.xn--comoracle-xj3h/" target="_blank" rel="noopener">www.ibm.com、Oracle</a> 公司的域名是 <a href="http://www.oracle.xn--comcisco-hm3g8360a63fhh376bwz2c1gzc/" target="_blank" rel="noopener">www.oracle.com、Cisco公司的域名是</a> <a href="http://www.cisco.com/" target="_blank" rel="noopener">www.cisco.com</a> 等。</p>
+<p><strong>HTTP协议</strong></p>
+<p>超文本传输协议（HTTP，HyperText Transfer Protocol)是互联网上应用最为广泛的一种网络协议。所有的 WWW（万维网） 文件都必须遵守这个标准。设计 HTTP 最初的目的是为了提供一种发布和接收 HTML 页面的方法。（百度百科）</p>
+<h2 id="1-2-运输层"><a href="#1-2-运输层" class="headerlink" title="1.2 运输层"></a>1.2 运输层</h2><p><strong>运输层(transport layer)的主要任务就是负责向两台主机进程之间的通信提供通用的数据传输服务</strong>。应用进程利用该服务传送应用层报文。“通用的”是指并不针对某一个特定的网络应用，而是多种应用可以使用同一个运输层服务。由于一台主机可同时运行多个线程，因此运输层有复用和分用的功能。所谓复用就是指多个应用层进程可同时使用下面运输层的服务，分用和复用相反，是运输层把收到的信息分别交付上面应用层中的相应进程。</p>
+<p><strong>运输层主要使用以下两种协议:</strong></p>
+<ol>
+<li><strong>传输控制协议 TCP</strong>（Transmission Control Protocol）–提供<strong>面向连接</strong>的，<strong>可靠的</strong>数据传输服务。</li>
+<li><strong>用户数据协议 UDP</strong>（User Datagram Protocol）–提供<strong>无连接</strong>的，尽最大努力的数据传输服务（<strong>不保证数据传输的可靠性</strong>）。</li>
+</ol>
+<p><strong>TCP 与 UDP 的对比见问题三。</strong></p>
+<h2 id="1-3-网络层"><a href="#1-3-网络层" class="headerlink" title="1.3 网络层"></a>1.3 网络层</h2><p><strong>在 计算机网络中进行通信的两个计算机之间可能会经过很多个数据链路，也可能还要经过很多通信子网。网络层的任务就是选择合适的网间路由和交换结点， 确保数据及时传送。</strong> 在发送数据时，网络层把运输层产生的报文段或用户数据报封装成分组和包进行传送。在 TCP/IP 体系结构中，由于网络层使用 <strong>IP 协议</strong>，因此分组也叫 <strong>IP 数据报</strong> ，简称 <strong>数据报</strong>。</p>
+<p>这里要注意：<strong>不要把运输层的“用户数据报 UDP ”和网络层的“ IP 数据报”弄混</strong>。另外，无论是哪一层的数据单元，都可笼统地用“分组”来表示。</p>
+<p>这里强调指出，网络层中的“网络”二字已经不是我们通常谈到的具体网络，而是指计算机网络体系结构模型中第三层的名称.</p>
+<p>互联网是由大量的异构（heterogeneous）网络通过路由器（router）相互连接起来的。互联网使用的网络层协议是无连接的网际协议（Intert Protocol）和许多路由选择协议，因此互联网的网络层也叫做<strong>网际层</strong>或<strong>IP层</strong>。</p>
+<h2 id="1-4-数据链路层"><a href="#1-4-数据链路层" class="headerlink" title="1.4 数据链路层"></a>1.4 数据链路层</h2><p><strong>数据链路层(data link layer)通常简称为链路层。两台主机之间的数据传输，总是在一段一段的链路上传送的，这就需要使用专门的链路层的协议。</strong> 在两个相邻节点之间传送数据时，<strong>数据链路层将网络层交下来的 IP 数据报组装程帧</strong>，在两个相邻节点间的链路上传送帧。每一帧包括数据和必要的控制信息（如同步信息，地址信息，差错控制等）。</p>
+<p>在接收数据时，控制信息使接收端能够知道一个帧从哪个比特开始和到哪个比特结束。这样，数据链路层在收到一个帧后，就可从中提出数据部分，上交给网络层。</p>
+<p>控制信息还使接收端能够检测到所收到的帧中有误差错。如果发现差错，数据链路层就简单地丢弃这个出了差错的帧，以避免继续在网络中传送下去白白浪费网络资源。如果需要改正数据在链路层传输时出现差错（这就是说，数据链路层不仅要检错，而且还要纠错），那么就要采用可靠性传输协议来纠正出现的差错。这种方法会使链路层的协议复杂些。</p>
+<h2 id="1-5-物理层"><a href="#1-5-物理层" class="headerlink" title="1.5 物理层"></a>1.5 物理层</h2><p>在物理层上所传送的数据单位是比特。</p>
+<p><strong>物理层(physical layer)的作用是实现相邻计算机节点之间比特流的透明传送，尽可能屏蔽掉具体传输介质和物理设备的差异。</strong> 使其上面的数据链路层不必考虑网络的具体传输介质是什么。“透明传送比特流”表示经实际电路传送后的比特流没有发生变化，对传送的比特流来说，这个电路好像是看不见的。</p>
+<p>在互联网使用的各种协中最重要和最著名的就是 TCP/IP 两个协议。现在人们经常提到的TCP/IP并不一定单指TCP和IP这两个具体的协议，而往往表示互联网所使用的整个TCP/IP协议族。</p>
+<p>1.6 总结一下</p>
+<p>上面我们对计算机网络的五层体系结构有了初步的了解，下面附送一张七层体系结构图总结一下。图片来源：<a href="https://blog.csdn.net/yaopeng_2005/article/details/7064869" target="_blank" rel="noopener">https://blog.csdn.net/yaopeng_2005/article/details/7064869</a></p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5C36f2bb68e0b841dd983d36300db5345d%5C6479a9d300a3.png" alt="img"></p>
+<p>七层体系结构图</p>
+<h1 id="二-TCP-三次握手和四次挥手-面试常客"><a href="#二-TCP-三次握手和四次挥手-面试常客" class="headerlink" title="二 TCP 三次握手和四次挥手(面试常客)"></a>二 TCP 三次握手和四次挥手(面试常客)</h1><p>为了准确无误地把数据送达目标处，TCP协议采用了三次握手策略。</p>
+<h2 id="2-1-TCP-三次握手漫画图解"><a href="#2-1-TCP-三次握手漫画图解" class="headerlink" title="2.1 TCP 三次握手漫画图解"></a>2.1 TCP 三次握手漫画图解</h2><p>如下图所示，下面的两个机器人通过3次握手确定了对方能正确接收和发送消息(图片来源：《图解HTTP》)。</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5C0887c80073a1494bade07ab599fd4692%5C4f2622ebd2ba.png" alt="img"></p>
+<p>TCP三次握手</p>
+<p><strong>简单示意图：</strong></p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5C4ce3724af74243908f3ddf3f132bd4d3%5Cf82b583c490e.png" alt="img"></p>
+<p>TCP三次握手</p>
+<ul>
+<li>客户端–发送带有 SYN 标志的数据包–一次握手–服务端</li>
+<li>服务端–发送带有 SYN/ACK 标志的数据包–二次握手–客户端</li>
+<li>客户端–发送带有带有 ACK 标志的数据包–三次握手–服务端</li>
+</ul>
+<h2 id="2-2-为什么要三次握手"><a href="#2-2-为什么要三次握手" class="headerlink" title="2.2 为什么要三次握手"></a>2.2 为什么要三次握手</h2><p><strong>三次握手的目的是建立可靠的通信信道，说到通讯，简单来说就是数据的发送与接收，而三次握手最主要的目的就是双方确认自己与对方的发送与接收是正常的。</strong></p>
+<p>第一次握手：Client 什么都不能确认；Server 确认了对方发送正常，自己接收正常</p>
+<p>第二次握手：Client 确认了：自己发送、接收正常，对方发送、接收正常；Server 确认了：对方发送正常，自己接收正常</p>
+<p>第三次握手：Client 确认了：自己发送、接收正常，对方发送、接收正常；Server 确认了：自己发送、接收正常，对方发送、接收正常</p>
+<p>所以三次握手就能确认双发收发功能都正常，缺一不可。</p>
+<h2 id="2-3-为什么要传回-SYN"><a href="#2-3-为什么要传回-SYN" class="headerlink" title="2.3 为什么要传回 SYN"></a>2.3 为什么要传回 SYN</h2><p>接收端传回发送端所发送的 SYN 是为了告诉发送端，我接收到的信息确实就是你所发送的信号了。</p>
+<p>SYN 是 TCP/IP 建立连接时使用的握手信号。在客户机和服务器之间建立正常的 TCP 网络连接时，客户机首先发出一个 SYN 消息，服务器使用 SYN-ACK 应答表示接收到了这个消息，最后客户机再以 ACK(Acknowledgement[汉译：确认字符 ,在数据通信传输中，接收站发给发送站的一种传输控制字符。它表示确认发来的数据已经接受无误。 ]）消息响应。这样在客户机和服务器之间才能建立起可靠的TCP连接，数据才可以在客户机和服务器之间传递。</p>
+<h2 id="2-4-传了-SYN-为啥还要传-ACK"><a href="#2-4-传了-SYN-为啥还要传-ACK" class="headerlink" title="2.4 传了 SYN,为啥还要传 ACK"></a>2.4 传了 SYN,为啥还要传 ACK</h2><p>双方通信无误必须是两者互相发送信息都无误。传了 SYN，证明发送方到接收方的通道没有问题，但是接收方到发送方的通道还需要 ACK 信号来进行验证。</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5Cb8693ba4c9194427879cfb62c705261e%5C3bf19ce9c30a.png" alt="img"></p>
+<p>TCP四次挥手</p>
+<p>断开一个 TCP 连接则需要“四次挥手”：</p>
+<ul>
+<li>客户端-发送一个 FIN，用来关闭客户端到服务器的数据传送</li>
+<li>服务器-收到这个 FIN，它发回一 个 ACK，确认序号为收到的序号加1 。和 SYN 一样，一个 FIN 将占用一个序号</li>
+<li>服务器-关闭与客户端的连接，发送一个FIN给客户端</li>
+<li>客户端-发回 ACK 报文确认，并将确认序号设置为收到序号加1</li>
+</ul>
+<h3 id="2-5-为什么要四次挥手"><a href="#2-5-为什么要四次挥手" class="headerlink" title="2.5 为什么要四次挥手"></a>2.5 为什么要四次挥手</h3><p>任何一方都可以在数据传送结束后发出连接释放的通知，待对方确认后进入半关闭状态。当另一方也没有数据再发送的时候，则发出连接释放通知，对方确认后就完全关闭了TCP连接。</p>
+<p>举个例子：A 和 B 打电话，通话即将结束后，A 说“我没啥要说的了”，B回答“我知道了”，但是 B 可能还会有要说的话，A 不能要求 B 跟着自己的节奏结束通话，于是 B 可能又巴拉巴拉说了一通，最后 B 说“我说完了”，A 回答“知道了”，这样通话才算结束。</p>
+<p>上面讲的比较概括，推荐一篇讲的比较细致的文章：<a href="https://blog.csdn.net/qzcsu/article/details/72861891" target="_blank" rel="noopener">https://blog.csdn.net/qzcsu/article/details/72861891</a></p>
+<h1 id="三-TCP-UDP-协议的区别"><a href="#三-TCP-UDP-协议的区别" class="headerlink" title="三 TCP,UDP 协议的区别"></a>三 TCP,UDP 协议的区别</h1><p><img src="E:%5CShellExt%5Cerer961115@163.com%5C7b9ff1c37f0240f7b8b2d3435bb47c32%5Cf610aee54b94.png" alt="img"></p>
+<p>UDP 在传送数据之前不需要先建立连接，远地主机在收到 UDP 报文后，不需要给出任何确认。虽然 UDP 不提供可靠交付，但在某些情况下 UDP 确是一种最有效的工作方式（一般用于即时通信），比如： QQ 语音、 QQ 视频 、直播等等</p>
+<p>TCP 提供面向连接的服务。在传送数据之前必须先建立连接，数据传送结束后要释放连接。 TCP 不提供广播或多播服务。由于 TCP 要提供可靠的，面向连接的传输服务（TCP的可靠体现在TCP在传递数据之前，会有三次握手来建立连接，而且在数据传递时，有确认、窗口、重传、拥塞控制机制，在数据传完后，还会断开连接用来节约系统资源），这一难以避免增加了许多开销，如确认，流量控制，计时器以及连接管理等。这不仅使协议数据单元的首部增大很多，还要占用许多处理机资源。TCP 一般用于文件传输、发送和接收邮件、远程登录等场景。</p>
+<h1 id="四-TCP-协议如何保证可靠传输"><a href="#四-TCP-协议如何保证可靠传输" class="headerlink" title="四 TCP 协议如何保证可靠传输"></a>四 TCP 协议如何保证可靠传输</h1><ol>
+<li>应用数据被分割成 TCP 认为最适合发送的数据块。</li>
+<li>TCP 给发送的每一个包进行编号，接收方对数据包进行排序，把有序数据传送给应用层。</li>
+<li><strong>校验和：</strong> TCP 将保持它首部和数据的检验和。这是一个端到端的检验和，目的是检测数据在传输过程中的任何变化。如果收到段的检验和有差错，TCP 将丢弃这个报文段和不确认收到此报文段。</li>
+<li>TCP 的接收端会丢弃重复的数据。</li>
+<li><strong>流量控制：</strong> TCP 连接的每一方都有固定大小的缓冲空间，TCP的接收端只允许发送端发送接收端缓冲区能接纳的数据。当接收方来不及处理发送方的数据，能提示发送方降低发送的速率，防止包丢失。TCP 使用的流量控制协议是可变大小的滑动窗口协议。 （TCP 利用滑动窗口实现流量控制）</li>
+<li><strong>拥塞控制：</strong> 当网络拥塞时，减少数据的发送。</li>
+<li><strong>ARQ协议：</strong> 也是为了实现可靠传输的，它的基本原理就是每发完一个分组就停止发送，等待对方确认。在收到确认后再发下一个分组。</li>
+<li><strong>超时重传：</strong> 当 TCP 发出一个段后，它启动一个定时器，等待目的端确认收到这个报文段。如果不能及时收到一个确认，将重发这个报文段。</li>
+</ol>
+<p>4.1 ARQ协议</p>
+<p><strong>自动重传请求</strong>（Automatic Repeat-reQuest，ARQ）是OSI模型中数据链路层和传输层的错误纠正协议之一。它通过使用确认和超时这两个机制，在不可靠服务的基础上实现可靠的信息传输。如果发送方在发送后一段时间之内没有收到确认帧，它通常会重新发送。ARQ包括停止等待ARQ协议和连续ARQ协议。</p>
+<p>停止等待ARQ协议</p>
+<ul>
+<li>停止等待协议是为了实现可靠传输的，它的基本原理就是每发完一个分组就停止发送，等待对方确认（回复ACK）。如果过了一段时间（超时时间后），还是没有收到 ACK 确认，说明没有发送成功，需要重新发送，直到收到确认后再发下一个分组；</li>
+<li>在停止等待协议中，若接收方收到重复分组，就丢弃该分组，但同时还要发送确认；</li>
+</ul>
+<p><strong>优点：</strong> 简单</p>
+<p><strong>缺点：</strong> 信道利用率低，等待时间长</p>
+<p><strong>1) 无差错情况:</strong></p>
+<p>发送方发送分组,接收方在规定时间内收到,并且回复确认.发送方再次发送。</p>
+<p><strong>2) 出现差错情况（超时重传）:</strong></p>
+<p>停止等待协议中超时重传是指只要超过一段时间仍然没有收到确认，就重传前面发送过的分组（认为刚才发送过的分组丢失了）。因此每发送完一个分组需要设置一个超时计时器，其重传时间应比数据在分组传输的平均往返时间更长一些。这种自动重传方式常称为 <strong>自动重传请求 ARQ</strong> 。另外在停止等待协议中若收到重复分组，就丢弃该分组，但同时还要发送确认。<strong>连续 ARQ 协议</strong> 可提高信道利用率。发送维持一个发送窗口，凡位于发送窗口内的分组可连续发送出去，而不需要等待对方确认。接收方一般采用累积确认，对按序到达的最后一个分组发送确认，表明到这个分组位置的所有分组都已经正确收到了。</p>
+<p><strong>3) 确认丢失和确认迟到</strong></p>
+<ul>
+<li><strong>确认丢失</strong> ：确认消息在传输过程丢失。当A发送M1消息，B收到后，B向A发送了一个M1确认消息，但却在传输过程中丢失。而A并不知道，在超时计时过后，A重传M1消息，B再次收到该消息后采取以下两点措施：1. 丢弃这个重复的M1消息，不向上层交付。 2. 向A发送确认消息。（不会认为已经发送过了，就不再发送。A能重传，就证明B的确认消息丢失）。</li>
+<li><strong>确认迟到</strong> ：确认消息在传输过程中迟到。A发送M1消息，B收到并发送确认。在超时时间内没有收到确认消息，A重传M1消息，B仍然收到并继续发送确认消息（B收到了2份M1）。此时A收到了B第二次发送的确认消息。接着发送其他数据。过了一会，A收到了B第一次发送的对M1的确认消息（A也收到了2份确认消息）。处理如下：1. A收到重复的确认后，直接丢弃。2. B收到重复的M1后，也直接丢弃重复的M1。</li>
+</ul>
+<p>连续ARQ协议</p>
+<p>连续 ARQ 协议可提高信道利用率。发送方维持一个发送窗口，凡位于发送窗口内的分组可以连续发送出去，而不需要等待对方确认。接收方一般采用累计确认，对按序到达的最后一个分组发送确认，表明到这个分组为止的所有分组都已经正确收到了。</p>
+<p><strong>优点：</strong> 信道利用率高，容易实现，即使确认丢失，也不必重传。</p>
+<p><strong>缺点：</strong> 不能向发送方反映出接收方已经正确收到的所有分组的信息。 比如：发送方发送了 5条 消息，中间第三条丢失（3号），这时接收方只能对前两个发送确认。发送方无法知道后三个分组的下落，而只好把后三个全部重传一次。这也叫 Go-Back-N（回退 N），表示需要退回来重传已经发送过的 N 个消息。</p>
+<p>4.2 滑动窗口和流量控制</p>
+<p><strong>TCP 利用滑动窗口实现流量控制。流量控制是为了控制发送方发送速率，保证接收方来得及接收。</strong> 接收方发送的确认报文中的窗口字段可以用来控制发送方窗口大小，从而影响发送方的发送速率。将窗口字段设置为 0，则发送方不能发送数据。</p>
+<p>4.3 拥塞控制</p>
+<p>在某段时间，若对网络中某一资源的需求超过了该资源所能提供的可用部分，网络的性能就要变坏。这种情况就叫拥塞。拥塞控制就是为了防止过多的数据注入到网络中，这样就可以使网络中的路由器或链路不致过载。拥塞控制所要做的都有一个前提，就是网络能够承受现有的网络负荷。拥塞控制是一个全局性的过程，涉及到所有的主机，所有的路由器，以及与降低网络传输性能有关的所有因素。相反，流量控制往往是点对点通信量的控制，是个端到端的问题。流量控制所要做到的就是抑制发送端发送数据的速率，以便使接收端来得及接收。</p>
+<p>为了进行拥塞控制，TCP 发送方要维持一个 <strong>拥塞窗口(cwnd)</strong> 的状态变量。拥塞控制窗口的大小取决于网络的拥塞程度，并且动态变化。发送方让自己的发送窗口取为拥塞窗口和接收方的接受窗口中较小的一个。</p>
+<p>TCP的拥塞控制采用了四种算法，即 <strong>慢开始</strong> 、 <strong>拥塞避免</strong> 、<strong>快重传</strong> 和 <strong>快恢复</strong>。在网络层也可以使路由器采用适当的分组丢弃策略（如主动队列管理 AQM），以减少网络拥塞的发生。</p>
+<ul>
+<li><strong>慢开始：</strong> 慢开始算法的思路是当主机开始发送数据时，如果立即把大量数据字节注入到网络，那么可能会引起网络阻塞，因为现在还不知道网络的符合情况。经验表明，较好的方法是先探测一下，即由小到大逐渐增大发送窗口，也就是由小到大逐渐增大拥塞窗口数值。cwnd初始值为1，每经过一个传播轮次，cwnd加倍。</li>
+</ul>
+<p><img src="https://images.xiaozhuanlan.com/photo/2019/f443e912eaa5185c74abfebdcfc07a0a." alt="img"></p>
+<ul>
+<li><strong>拥塞避免：</strong> 拥塞避免算法的思路是让拥塞窗口cwnd缓慢增大，即每经过一个往返时间RTT就把发送放的cwnd加1.</li>
+<li><strong>快重传与快恢复：</strong></li>
+</ul>
+<p>在 TCP/IP 中，快速重传和恢复（fast retransmit and recovery，FRR）是一种拥塞控制算法，它能快速恢复丢失的数据包。没有 FRR，如果数据包丢失了，TCP 将会使用定时器来要求传输暂停。在暂停的这段时间内，没有新的或复制的数据包被发送。有了 FRR，如果接收机接收到一个不按顺序的数据段，它会立即给发送机发送一个重复确认。如果发送机接收到三个重复确认，它会假定确认件指出的数据段丢失了，并立即重传这些丢失的数据段。有了 FRR，就不会因为重传时要求的暂停被耽误。 　当有单独的数据包丢失时，快速重传和恢复（FRR）能最有效地工作。当有多个数据信息包在某一段很短的时间内丢失时，它则不能很有效地工作。</p>
+<h1 id="五-在浏览器中输入url地址-gt-gt-显示主页的过程-面试常客"><a href="#五-在浏览器中输入url地址-gt-gt-显示主页的过程-面试常客" class="headerlink" title="五 在浏览器中输入url地址 -&gt;&gt; 显示主页的过程(面试常客)"></a>五 在浏览器中输入url地址 -&gt;&gt; 显示主页的过程(面试常客)</h1><p>百度好像最喜欢问这个问题。</p>
+<p>打开一个网页，整个过程会使用哪些协议</p>
+<p>图解（图片来源：《图解HTTP》）：</p>
+<p>总体来说分为以下几个过程:</p>
+<ol>
+<li>DNS解析</li>
+<li>TCP连接</li>
+<li>发送HTTP请求</li>
+<li>服务器处理请求并返回HTTP报文</li>
+<li>浏览器解析渲染页面</li>
+<li>连接结束</li>
+</ol>
+<p>具体可以参考下面这篇文章：</p>
+<ul>
+<li><a href="https://segmentfault.com/a/1190000006879700" target="_blank" rel="noopener">https://segmentfault.com/a/1190000006879700</a></li>
+</ul>
+<p>六 状态码</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5C8ebd92602fee4963a3f9a6d1088e98db%5Cfb719981796.jpeg" alt="img"></p>
+<p>状态码</p>
+<p>七 各种协议与HTTP协议之间的关系</p>
+<p>一般面试官会通过这样的问题来考察你对计算机网络知识体系的理解。</p>
+<p>图片来源：《图解HTTP》</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5Cccabbb0233b74e1aadb4e6f9686cf03a%5C23c95015316.jpeg" alt="img"></p>
+<p>各种协议与HTTP协议的关系</p>
+<p>八 HTTP长连接,短连接</p>
+<p>在HTTP/1.0中默认使用短连接。也就是说，客户端和服务器每进行一次HTTP操作，就建立一次连接，任务结束就中断连接。当客户端浏览器访问的某个HTML或其他类型的Web页中包含有其他的Web资源（如JavaScript文件、图像文件、CSS文件等），每遇到这样一个Web资源，浏览器就会重新建立一个HTTP会话。</p>
+<p>而从HTTP/1.1起，默认使用长连接，用以保持连接特性。使用长连接的HTTP协议，会在响应头加入这行代码：</p>
+<ul>
+<li><strong>Connection</strong>:keep-alive</li>
+</ul>
+<p>在使用长连接的情况下，当一个网页打开完成后，客户端和服务器之间用于传输HTTP数据的TCP连接不会关闭，客户端再次访问这个服务器时，会继续使用这一条已经建立的连接。Keep-Alive不会永久保持连接，它有一个保持时间，可以在不同的服务器软件（如Apache）中设定这个时间。实现长连接需要客户端和服务端都支持长连接。</p>
+<p><strong>HTTP协议的长连接和短连接，实质上是TCP协议的长连接和短连接。</strong></p>
+<p>—— <a href="https://www.cnblogs.com/gotodsp/p/6366163.html" target="_blank" rel="noopener">《HTTP长连接、短连接究竟是什么？》</a></p>
+<p>九 HTTP是不保存状态的协议,如何保存用户状态?</p>
+<p>HTTP 是一种不保存状态，即无状态（stateless）协议。也就是说 HTTP 协议自身不对请求和响应之间的通信状态进行保存。那么我们保存用户状态呢？Session 机制的存在就是为了解决这个问题，Session 的主要作用就是通过服务端记录用户的状态。典型的场景是购物车，当你要添加商品到购物车的时候，系统不知道是哪个用户操作的，因为 HTTP 协议是无状态的。服务端给特定的用户创建特定的 Session 之后就可以标识这个用户并且跟踪这个用户了（一般情况下，服务器会在一定时间内保存这个 Session，过了时间限制，就会销毁这个Session）。</p>
+<p>在服务端保存 Session 的方法很多，最常用的就是内存和数据库(比如是使用内存数据库redis保存)。既然 Session 存放在服务器端，那么我们如何实现 Session 跟踪呢？大部分情况下，我们都是通过在 Cookie 中附加一个 Session ID 来方式来跟踪。</p>
+<p><strong>Cookie 被禁用怎么办?</strong></p>
+<p>最常用的就是利用 URL 重写把 Session ID 直接附加在URL路径的后面。</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5C4038b5f564b649bcabdeebd85820f8f1%5C1d7a6c7f8805.png" alt="img"></p>
+<p>HTTP是无状态协议</p>
+<p>十 Cookie的作用是什么?和Session有什么区别？</p>
+<p>Cookie 和 Session都是用来跟踪浏览器用户身份的会话方式，但是两者的应用场景不太一样。</p>
+<p><strong>Cookie 一般用来保存用户信息</strong> 比如①我们在 Cookie 中保存已经登录过得用户信息，下次访问网站的时候页面可以自动帮你登录的一些基本信息给填了；②一般的网站都会有保持登录也就是说下次你再访问网站的时候就不需要重新登录了，这是因为用户登录的时候我们可以存放了一个 Token 在 Cookie 中，下次登录的时候只需要根据 Token 值来查找用户即可(为了安全考虑，重新登录一般要将 Token 重写)；③登录一次网站后访问网站其他页面不需要重新登录。<strong>Session 的主要作用就是通过服务端记录用户的状态。</strong> 典型的场景是购物车，当你要添加商品到购物车的时候，系统不知道是哪个用户操作的，因为 HTTP 协议是无状态的。服务端给特定的用户创建特定的 Session 之后就可以标识这个用户并且跟踪这个用户了。</p>
+<p>Cookie 数据保存在客户端(浏览器端)，Session 数据保存在服务器端。</p>
+<p>Cookie 存储在客户端中，而Session存储在服务器上，相对来说 Session 安全性更高。如果使用 Cookie 的一些敏感信息不要写入 Cookie 中，最好能将 Cookie 信息加密然后使用到的时候再去服务器端解密。</p>
+<p>十一 HTTP 1.0和HTTP 1.1的主要区别是什么?</p>
+<p>这部分回答引用这篇文章 <a href="https://mp.weixin.qq.com/s/GICbiyJpINrHZ41u_4zT-A?12" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/GICbiyJpINrHZ41u_4zT-A?12</a> 的一些内容。</p>
+<p>HTTP1.0最早在网页中使用是在1996年，那个时候只是使用一些较为简单的网页上和网络请求上，而HTTP1.1则在1999年才开始广泛应用于现在的各大浏览器网络请求中，同时HTTP1.1也是当前使用最为广泛的HTTP协议。 主要区别主要体现在：</p>
+<ol>
+<li><strong>长连接</strong> : <strong>在HTTP/1.0中，默认使用的是短连接</strong>，也就是说每次请求都要重新建立一次连接。HTTP 是基于TCP/IP协议的,每一次建立或者断开连接都需要三次握手四次挥手的开销，如果每次请求都要这样的话，开销会比较大。因此最好能维持一个长连接，可以用个长连接来发多个请求。<strong>HTTP 1.1起，默认使用长连接</strong> ,默认开启Connection： keep-alive。 <strong>HTTP/1.1的持续连接有非流水线方式和流水线方式</strong> 。流水线方式是客户在收到HTTP的响应报文之前就能接着发送新的请求报文。与之相对应的非流水线方式是客户在收到前一个响应后才能发送下一个请求。</li>
+<li><strong>错误状态响应码</strong> :在HTTP1.1中新增了24个错误状态响应码，如409（Conflict）表示请求的资源与资源的当前状态发生冲突；410（Gone）表示服务器上的某个资源被永久性的删除。</li>
+<li><strong>缓存处理</strong> :在HTTP1.0中主要使用header里的If-Modified-Since,Expires来做为缓存判断的标准，HTTP1.1则引入了更多的缓存控制策略例如Entity tag，If-Unmodified-Since, If-Match, If-None-Match等更多可供选择的缓存头来控制缓存策略。</li>
+<li><strong>带宽优化及网络连接的使用</strong> :HTTP1.0中，存在一些浪费带宽的现象，例如客户端只是需要某个对象的一部分，而服务器却将整个对象送过来了，并且不支持断点续传功能，HTTP1.1则在请求头引入了range头域，它允许只请求资源的某个部分，即返回码是206（Partial Content），这样就方便了开发者自由的选择以便于充分利用带宽和连接。</li>
+</ol>
+<p>十二 URI和URL的区别是什么?</p>
+<ul>
+<li>URI (Uniform Resource Identifier) 是同一资源标志符，可以唯一标识一个资源。</li>
+<li>URL  (Uniform Resource Location) 是同一资源定位符，可以提供该资源的路径。它是一种具体的 URI，即 URL 可以用来标识一个资源，而且还指明了如何 locate 这个资源。</li>
+</ul>
+<p>URI的作用像身份证号一样，URL的作用更像家庭住址一样。URL是一种具体的URI，它不仅唯一标识资源，而且还提供了定位该资源的信息。</p>
+<p>十三 HTTP 和 HTTPS 的区别？</p>
+<ol>
+<li><strong>端口</strong> ：HTTP的URL由“http://”起始且默认使用端口80，而HTTPS的URL由“https://”起始且默认使用端口443。</li>
+<li><strong>安全性和资源消耗：</strong> HTTP协议运行在TCP之上，所有传输的内容都是明文，客户端和服务器端都无法验证对方的身份。HTTPS是运行在SSL/TLS之上的HTTP协议，SSL/TLS 运行在TCP之上。所有传输的内容都经过加密，加密采用对称加密，但对称加密的密钥用服务器方的证书进行了非对称加密。所以说，HTTP 安全性没有 HTTPS高，但是 HTTPS 比HTTP耗费更多服务器资源。</li>
+</ol>
+<ul>
+<li><ul>
+<li>对称加密：密钥只有一个，加密解密为同一个密码，且加解密速度快，典型的对称加密算法有DES、AES等；</li>
+<li>非对称加密：密钥成对出现（且根据公钥无法推知私钥，根据私钥也无法推知公钥），加密解密使用不同密钥（公钥加密需要私钥解密，私钥加密需要公钥解密），相对对称加密速度较慢，典型的非对称加密算法有RSA、DSA等。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>基础,网络</category>
+      </categories>
+      <tags>
+        <tag>基础</tag>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JVM（下）</title>
+    <url>/2020/05/20/jvm%EF%BC%88%E4%B8%8B%EF%BC%89/</url>
+    <content><![CDATA[<h1 id="JVM-下"><a href="#JVM-下" class="headerlink" title="JVM(下)"></a>JVM(下)</h1><ul>
+<li>类文件结构；</li>
+<li>类加载的过程；</li>
+<li>类加载器；</li>
+<li>双亲委派模型；</li>
+<li>双亲委派模型实现源码分析；</li>
+<li>双亲委派模型带来了什么好处；</li>
+<li>如果我们不想用双亲委派模型怎么办?</li>
+<li>如何自定义类加载器；</li>
+</ul>
+<a id="more"></a>
+
+
+
+<p>根据 Java 虚拟机规范，类文件由单个 ClassFile 结构组成：</p>
+<ul>
+<li>ClassFile {</li>
+<li>​    u4             magic; <em>//Class 文件的标志</em></li>
+<li>​    u2             minor_version;<em>//Class 的小版本号</em></li>
+<li>​    u2             major_version;<em>//Class 的大版本号</em></li>
+<li>​    u2             constant_pool_count;<em>//常量池的数量</em></li>
+<li>​    cp_info        constant_pool[constant_pool_count-1];<em>//常量池</em></li>
+<li>​    u2             access_flags;<em>//Class 的访问标记</em></li>
+<li>​    u2             this_class;<em>//当前类</em></li>
+<li>​    u2             super_class;<em>//父类</em></li>
+<li>​    u2             interfaces_count;<em>//接口</em></li>
+<li>​    u2             interfaces[interfaces_count];<em>//一个类可以实现多个接口</em></li>
+<li>​    u2             fields_count;<em>//Class 文件的字段属性</em></li>
+<li>​    field_info     fields[fields_count];<em>//一个类会可以有个字段</em></li>
+<li>​    u2             methods_count;<em>//Class 文件的方法数量</em></li>
+<li>​    method_info    methods[methods_count];<em>//一个类可以有个多个方法</em></li>
+<li>​    u2             attributes_count;<em>//此类的属性表中的属性数</em></li>
+<li>​    attribute_info attributes[attributes_count];<em>//属性表集合</em></li>
+<li>}</li>
+</ul>
+<h4 id="Class文件字节码结构组织示意图"><a href="#Class文件字节码结构组织示意图" class="headerlink" title="Class文件字节码结构组织示意图"></a><strong>Class文件字节码结构组织示意图</strong></h4><p><img src="E:%5CShellExt%5Cerer961115@163.com%5C2c054e4d0d2d4720a9cd25ab81e3e49e%5Cc663eaa42d8f.png" alt="img"></p>
+<p>按照上图结构按顺序详细介绍一下 Class 文件结构涉及到的一些组件。</p>
+<ol>
+<li><p><strong>魔数:</strong> 确定这个文件是否为一个能被虚拟机接收的 Class 文件。</p>
+</li>
+<li><p><strong>Class 文件版本</strong> ：Class 文件的版本号，保证编译正常执行。</p>
+</li>
+<li><p><strong>常量池</strong> ：常量池主要存放两大常量：字面量和符号引用。</p>
+</li>
+<li><p><strong>访问标志</strong> ：标志用于识别一些类或者接口层次的访问信息，包括：这个 Class 是类还是接口，是否为 public 或者 abstract 类型，如果是类的话是否声明为 final 等等。</p>
+</li>
+<li><p><strong>当前类索引,父类索引</strong> ：类索引用于确定这个类的全限定名，父类索引用于确定这个类的父类的全限定名，由于 Java 语言的单继承，所以父类索引只有一个，除了 java.lang.Object 之外，所有的 java 类都有父类，因此除了 java.lang.Object 外，所有 Java 类的父类索引都不为 0。</p>
+</li>
+<li><p><strong>接口索引集合</strong> ：接口索引集合用来描述这个类实现了那些接口，这些被实现的接口将按implents(如果这个类本身是接口的话则是extends) 后的接口顺序从左到右排列在接口索引集合中。</p>
+</li>
+<li><p><strong>字段表集合</strong> ：描述接口或类中声明的变量。字段包括类级变量以及实例变量，但不包括在方法内部声明的局部变量。</p>
+</li>
+<li><p><strong>方法表集合</strong> ：类中的方法。</p>
+</li>
+<li><p><strong>属性表集合</strong> ： 在 Class 文件，字段表，方法表中都可以携带自己的属性表集合。</p>
+<h2 id="类加载过程"><a href="#类加载过程" class="headerlink" title="类加载过程"></a>类加载过程</h2></li>
+</ol>
+<ul>
+<li>类加载过程：<strong>加载-&gt;连接-&gt;初始化</strong>。连接过程又可分为三步:<strong>验证-&gt;准备-&gt;解析</strong>。</li>
+</ul>
+<p>加载阶段和连接阶段的部分内容是交叉进行的，加载阶段尚未结束，连接阶段可能就已经开始了。</p>
+<ul>
+<li>类加载过程的第一步，主要完成下面3件事情：</li>
+</ul>
+<ol>
+<li><p>通过全类名获取定义此类的二进制字节流.. ( 比较常见的就是从 ZIP 包中读取（日后出现的JAR、EAR、WAR格式的基础）、其他文件生成（典型应用就是JSP）等等。</p>
+<p><strong>一个非数组类的加载阶段（加载阶段获取类的二进制字节流的动作）是可控性最强的阶段，这一步我们可以去完成还可以自定义类加载器去控制字节流的获取方式（重写一个类加载器的</strong> <strong>loadClass()</strong> <strong>方法）。数组类型不通过类加载器创建，它由 Java 虚拟机直接创建。</strong></p>
+</li>
+<li><p>将字节流所代表的静态存储结构转换为方法区的运行时数据结构</p>
+</li>
+<li><p>在内存中生成一个代表该类的 Class 对象,作为方法区这些数据的访问入口</p>
+</li>
+</ol>
+<h2 id="有哪些类加载器"><a href="#有哪些类加载器" class="headerlink" title="有哪些类加载器"></a>有哪些类加载器</h2><p>JVM 中内置了三个重要的 ClassLoader，除了 BootstrapClassLoader 其他类加载器均由 Java 实现且全部继承自java.lang.ClassLoader：</p>
+<ol>
+<li><strong>BootstrapClassLoader(启动类加载器)</strong> ：最顶层的加载类，由C++实现，负责加载 %JAVA_HOME%/lib目录下的jar包和类或者或被 -Xbootclasspath参数指定的路径中的所有类。</li>
+<li><strong>ExtensionClassLoader(扩展类加载器)</strong> ：主要负责加载目录 %JRE_HOME%/lib/ext 目录下的jar包和类，或被 java.ext.dirs 系统变量所指定的路径下的jar包。</li>
+<li><strong>AppClassLoader(应用程序类加载器)</strong> :面向我们用户的加载器，负责加载当前应用classpath下的所有jar包和类。</li>
+</ol>
+<h1 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h1><p>每一个类都有一个对应它的类加载器。系统中的 ClassLoder 在协同工作的时候会默认使用 <strong>双亲委派模型</strong> 。即在类加载的时候，系统会首先判断当前类是否被加载过。已经被加载的类会直接返回，否则才会尝试加载。<strong>加载的时候，首先会把该请求委派该父类加载器的</strong> <strong>loadClass()</strong> <strong>处理，因此所有的请求最终都应该传送到顶层的启动类加载器</strong> <strong>BootstrapClassLoader</strong> <strong>中。当父类加载器无法处理时，才由自己来处理。</strong>当父类加载器为null时，会使用启动类加载器 BootstrapClassLoader 作为父类加载器。</p>
+<img src="E:%5CShellExt%5Cerer961115@163.com%5C9d087a127cfb418fba40530e0d66d194%5C4411c166c03d.png" alt="img" style="zoom:75%;" />
+
+
+
+
+
+<h5 id="每个类加载都有一个父类加载器，我们通过下面的程序来验证。"><a href="#每个类加载都有一个父类加载器，我们通过下面的程序来验证。" class="headerlink" title="每个类加载都有一个父类加载器，我们通过下面的程序来验证。"></a>每个类加载都有一个父类加载器，我们通过下面的程序来验证。</h5><ul>
+<li><strong>public</strong> <strong>class</strong> <strong>ClassLoaderDemo</strong> {</li>
+<li>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> <strong>main</strong>(String[] args) {</li>
+<li>​        System.out.println(“ClassLodarDemo’s ClassLoader is “ + ClassLoaderDemo.class.getClassLoader());</li>
+<li>​        System.out.println(“The Parent of ClassLodarDemo’s ClassLoader is “ + ClassLoaderDemo.class.getClassLoader().getParent());</li>
+<li>​        System.out.println(“The GrandParent of ClassLodarDemo’s ClassLoader is “ + ClassLoaderDemo.class.getClassLoader().getParent().getParent());</li>
+<li>​    }</li>
+<li>}</li>
+</ul>
+<p>Output</p>
+<ul>
+<li>ClassLodarDemo’s ClassLoader is sun.misc.Launcher$AppClassLoader@18b4aac2</li>
+<li>The Parent of ClassLodarDemo’s ClassLoader <strong>is</strong> sun.misc.Launcher$ExtClassLoader@1b6d3586</li>
+<li>The GrandParent <strong>of</strong> ClassLodarDemo’s ClassLoader is null</li>
+</ul>
+<p>AppClassLoader的父类加载器为ExtClassLoader</p>
+<p>ExtClassLoader的父类加载器为null，<strong>null并不代表**</strong>ExtClassLoader<strong>**没有父类加载器，而是</strong> <strong>Bootstrap ClassLoader</strong> 。</p>
+<p>其实这个双亲翻译的容易让别人误解，我们一般理解的双亲都是父母，这里的双亲更多地表达的是“父母这一辈”的人而已，并不是说真的有一个 Mather ClassLoader 和一个 Father ClassLoader 。另外，类加载器之间的“父子”关系也不是通过继承来体现的，是由“优先级”来决定。官方API文档对这部分的描述如下:</p>
+<p>The Java platform uses a delegation model for loading classes. <strong>The basic idea is that every class loader has a “parent” class loader.</strong> When loading a class, a class loader first “delegates” the search for the class to its parent class loader before attempting to find the class itself.</p>
+<h1 id="双亲委派模型实现源码分析"><a href="#双亲委派模型实现源码分析" class="headerlink" title="双亲委派模型实现源码分析"></a>双亲委派模型实现源码分析</h1><p>双亲委派模型的实现代码非常简单，逻辑非常清晰，都集中在 java.lang.ClassLoader 的 loadClass() 中，相关代码如下所示。</p>
+<ul>
+<li><strong>private</strong> <strong>final</strong> ClassLoader parent; </li>
+<li><strong>protected</strong> Class&lt;?&gt; loadClass(String name, <strong>boolean</strong> resolve)</li>
+<li>​        <strong>throws</strong> ClassNotFoundException</li>
+<li>​    {</li>
+<li>​        <strong>synchronized</strong> (getClassLoadingLock(name)) {</li>
+<li>​            <em>// 首先，检查请求的类是否已经被加载过</em></li>
+<li>​            Class&lt;?&gt; c = findLoadedClass(name);</li>
+<li>​            <strong>if</strong> (c == <strong>null</strong>) {</li>
+<li>​                <strong>long</strong> t0 = System.nanoTime();</li>
+<li>​                <strong>try</strong> {</li>
+<li>​                    <strong>if</strong> (parent != <strong>null</strong>) {<em>//父加载器不为空，调用父加载器loadClass()方法处理</em></li>
+<li>​                        c = parent.loadClass(name, <strong>false</strong>);</li>
+<li>​                    } <strong>else</strong> {<em>//父加载器为空，使用启动类加载器 BootstrapClassLoader 加载</em></li>
+<li>​                        c = findBootstrapClassOrNull(name);</li>
+<li>​                    }</li>
+<li>​                } <strong>catch</strong> (ClassNotFoundException e) {</li>
+<li>​                   <em>//抛出异常说明父类加载器无法完成加载请求</em></li>
+<li>​                }</li>
+<li></li>
+<li>​                <strong>if</strong> (c == <strong>null</strong>) {</li>
+<li>​                    <strong>long</strong> t1 = System.nanoTime();</li>
+<li>​                    <em>//自己尝试加载</em></li>
+<li>​                    c = findClass(name);</li>
+<li></li>
+<li>​                    <em>// this is the defining class loader; record the stats</em></li>
+<li>​                    sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);</li>
+<li>​                    sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);</li>
+<li>​                    sun.misc.PerfCounter.getFindClasses().increment();</li>
+<li>​                }</li>
+<li>​            }</li>
+<li>​            <strong>if</strong> (resolve) {</li>
+<li>​                resolveClass(c);</li>
+<li>​            }</li>
+<li>​            <strong>return</strong> c;</li>
+<li>​        }</li>
+<li>​    }</li>
+</ul>
+<h1 id="双亲委派模型带来了什么好处呢？"><a href="#双亲委派模型带来了什么好处呢？" class="headerlink" title="双亲委派模型带来了什么好处呢？"></a>双亲委派模型带来了什么好处呢？</h1><p>双亲委派模型保证了Java程序的稳定运行，可以<strong>避免类的重复加载</strong>（JVM 区分不同类的方式<strong>不仅仅根据类名</strong>，相同的<strong>类文件被不同的类加载器加载产生的是两个不同的类</strong>），也保证了 Java 的核心 API 不被篡改。如果不用没有使用双亲委派模型，而是每个类加载器加载自己的话就会出现一些问题，比如我们编写一个称为 java.lang.Object 类的话，那么程序运行的时候，系统就会出现多个不同的 Object 类。</p>
+<h1 id="如果我们不想用双亲委派模型怎么办？"><a href="#如果我们不想用双亲委派模型怎么办？" class="headerlink" title="如果我们不想用双亲委派模型怎么办？"></a>如果我们不想用双亲委派模型怎么办？</h1><p>为了避免双亲委托机制，我们可以<strong>自己定义一个类加载器</strong>，然后<strong>重载 loadClass(</strong>) 即可。</p>
+<h1 id="如何自定义类加载器"><a href="#如何自定义类加载器" class="headerlink" title="如何自定义类加载器?"></a>如何自定义类加载器?</h1><p>除了 BootstrapClassLoader 其他类加载器均由 Java 实现且全部继承自java.lang.ClassLoader。如果我们要自定义<strong>自己的类加载器，很明显需要继承 ClassLoader。</strong></p>
+]]></content>
+      <categories>
+        <category>Java 基础</category>
+      </categories>
+      <tags>
+        <tag>基础</tag>
+        <tag>JVM</tag>
+        <tag>虚拟机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库初识</title>
+    <url>/2020/05/19/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%9D%E8%AF%86/</url>
+    <content><![CDATA[<h1 id="数据库知识基础"><a href="#数据库知识基础" class="headerlink" title="数据库知识基础"></a>数据库知识基础</h1><ul>
+<li>数据库知识基础，这部分内容一定要理解记忆。虽然这部分内容只是理论知识，但是非常重要，这是后面学习MySQL数据库的基础。</li>
+</ul>
+<a id="more"></a>
+
+<h1 id="什么是数据库-数据库管理系统-数据库系统-数据库管理员"><a href="#什么是数据库-数据库管理系统-数据库系统-数据库管理员" class="headerlink" title="什么是数据库,数据库管理系统,数据库系统,数据库管理员?"></a>什么是数据库,数据库管理系统,数据库系统,数据库管理员?</h1><ul>
+<li><strong>数据库</strong> :数据库(DataBase简称DB)就是信息的集合或者说数据库是由数据库管理系统管理的数据的集合。</li>
+<li><strong>数据库管理系统</strong> : 数据库管理系统(Database Management System 简称DBMS)是一种操纵和管理数据库的大型软件，通常用语用于建立、使用和维护数据库。</li>
+<li><strong>数据库系统</strong> : 数据库系统(Data Base System，简称DBS)通常由软件、数据库和数据管理员(DBA)组成。</li>
+<li><strong>数据库管理员</strong> : 数据库管理员(Database Administrator,简称DBA)负责全面管理和控制数据库系统。</li>
+</ul>
+<p>数据库系统基本构成如下图所示：</p>
+<img src="E:%5CShellExt%5Cerer961115@163.com%5Ceae22654b4604b41925613ade654632c%5Ccaea8678708.jpeg" alt="img" style="zoom:70%;" />
+
+
+
+<h1 id="什么是元组-码-候选码-主码-外码-主属性-非主属性？"><a href="#什么是元组-码-候选码-主码-外码-主属性-非主属性？" class="headerlink" title="什么是元组,码,候选码,主码,外码,主属性,非主属性？"></a>什么是元组,码,候选码,主码,外码,主属性,非主属性？</h1><ul>
+<li><strong>元组</strong> ： 元组（tuple）是关系数据库中的基本概念，关系是一张表，表中的每行（即数据库中的每条记录）就是一个元组，每列就是一个属性。 在二维表里，元组也称为行。</li>
+<li><strong>码</strong> ：码就是能唯一标识实体的属性，对应表中的列。</li>
+<li><strong>候选码</strong> ： 若关系中的某一属性或属性组的值能唯一的标识一个元组，而其任何、子集都不能再标识，则称该属性组为候选码。例如：在学生实体中，“学号”是能唯一的区分学生实体的，同时又假设“姓名”、“班级”的属性组合足以区分学生实体，那么{学号}和{姓名，班级}都是候选码。</li>
+<li><strong>主码</strong> : 主码也叫主键。主码是从候选码中选出来的。 一个实体集中只能有一个主码，但可以有多个候选码。</li>
+<li><strong>外码</strong> : 外码也叫外键。如果一个关系中的一个属性是另外一个关系中的主码则这个属性为外码。</li>
+<li><strong>主属性</strong> ： 候选码中出现过的属性称为主属性。比如关系 工人（工号，身份证号，姓名，性别，部门）.显然工号和身份证号都能够唯一标示这个关系，所以都是候选码。工号、身份证号这两个属性就是主属性。如果主码是一个属性组，那么属性组中的属性都是主属性。</li>
+<li><strong>非主属性：</strong> 不包含在任何一个候选码中的属性称为非主属性。比如在关系——学生（学号，姓名，年龄，性别，班级）中，主码是“学号”，那么其他的“姓名”、“年龄”、“性别”、“班级”就都可以称为非主属性。</li>
+</ul>
+<h1 id="主键和外键有什么区别"><a href="#主键和外键有什么区别" class="headerlink" title="主键和外键有什么区别?"></a>主键和外键有什么区别?</h1><ul>
+<li><strong>主键(主码)</strong> ：主键用于唯一标识一个元组，不能有重复，不允许为空。一个表只能有一个主键。</li>
+<li><strong>外键(外码)</strong> ：外键用来和其他表建立联系用，外键是另一表的主键，外键是可以有重复的，可以是空值。一个表可以有多个外键。</li>
+</ul>
+<h1 id="什么是ER图？"><a href="#什么是ER图？" class="headerlink" title="什么是ER图？"></a>什么是ER图？</h1><p>我们做一个项目的时候一定要试着花ER图来捋清数据库设计，这个也是面试官问你项目的时候经常会被问道的。</p>
+<p><strong>E-R图</strong>也称实体-联系图(Entity Relationship Diagram)，提供了表示实体类型、属性和联系的方法，用来描述现实世界的概念模型。 它是描述现实世界关系概念模型的有效方法。 是表示概念关系模型的一种方式。</p>
+<p>下图是一个学生选课的ER图，每个学生可以选若干门课程，同一门课程也可以被若干人选择，所以它们之间的关系是多对多（M:N）。另外，还有其他两种关系是：1对1（1:1）、1对多（1:N）。</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5C2415cf4495e14d34a89cd1b3a66d7514%5Ccf4b7fbcb1ef.png" alt="img"></p>
+<p>ER图示例</p>
+<p>我们试着将上面的ER图转换成数据库实际的关系模型(实际设计中，我们通常会将任课教师也作为一个实体来处理)：</p>
+<img src="E:%5CShellExt%5Cerer961115@163.com%5C09b755dd2268469d8a129573db3a3397%5Cecf8919bdf1a.png" alt="img" style="zoom:75%;" />
+
+<h1 id="数据库范式"><a href="#数据库范式" class="headerlink" title="数据库范式"></a>数据库范式</h1><p><strong>1NF(第一范式)</strong></p>
+<p>属性（对应于表中的字段）不能再被分割，也就是这个字段只能是一个值，不能再分为多个其他的字段了。<strong>1NF是所有关系型数据库的最基本要求</strong> ，也就是说关系型数据库中创建的表一定满足第一范式。</p>
+<p><strong>2NF(第二范式)</strong></p>
+<p>2NF在1NF的基础之上，消除了非主属性对于码的部分函数依赖。如下图所示，展示了第一范式到第二范式的过渡。第二范式在第一范式的基础上增加了一个列，这个列称为主键，非主属性都依赖于主键。</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5C14b26c0a6b0144979c5ac9780cd9f2f0%5Ca7cff05f59fb.png" alt="img"></p>
+<p>第二范式</p>
+<p>一些重要的概念：</p>
+<ul>
+<li><strong>函数依赖（functional dependency）</strong> ：若在一张表中，在属性（或属性组）X的值确定的情况下，必定能确定属性Y的值，那么就可以说Y函数依赖于X，写作 X → Y。</li>
+<li><strong>部分函数依赖（partial functional dependency）</strong> ：如果X→Y，并且存在X的一个真子集X0，使得X0→Y，则称Y对X部分函数依赖。比如学生基本信息表R中（学号，身份证号，姓名）当然学号属性取值是唯一的，在R关系中，（学号，身份证号）-&gt;（姓名），（学号）-&gt;（姓名），（身份证号）-&gt;（姓名）；所以姓名部分函数依赖与（学号，身份证号）；</li>
+<li><strong>完全函数依赖(Full functional dependency)</strong> ：在一个关系中，若某个非主属性数据项依赖于全部关键字称之为完全函数依赖。比如学生基本信息表R（学号，班级，姓名）假设不同的班级学号有相同的，班级内学号不能相同，在R关系中，（学号，班级）-&gt;（姓名），但是（学号）-&gt;(姓名)不成立，（班级）-&gt;(姓名)不成立，所以姓名完全函数依赖与（学号，班级）；</li>
+<li><strong>传递函数依赖</strong> ： 在关系模式R(U)中，设X，Y，Z是U的不同的属性子集，如果X确定Y、Y确定Z，且有X不包含Y，Y不确定X，（X∪Y）∩Z=空集合，则称Z传递函数依赖(transitive functional dependency) 于X。传递函数依赖会导致数据冗余和异常。传递函数依赖的Y和Z子集往往同属于某一个事物，因此可将其合并放到一个表中。比如在关系R(学号 ,姓名, 系名，系主任)中，学号 → 系名，系名 → 系主任，所以存在非主属性系主任对于学号的传递函数依赖。。</li>
+</ul>
+<p><strong>3NF(第三范式)</strong></p>
+<p>3NF在2NF的基础之上，消除了非主属性对于码的传递函数依赖 。符合3NF要求的数据库设计，<strong>基本</strong>上解决了数据冗余过大，插入异常，修改异常，删除异常的问题。比如在关系R(学号 ,姓名, 系名，系主任)中，学号 → 系名，系名 → 系主任，所以存在非主属性系主任对于学号的传递函数依赖，所以该表的设计，不符合3NF的要求。</p>
+<p><strong>总结</strong></p>
+<ul>
+<li>1NF：属性不可再分。</li>
+<li>2NF：1NF的基础之上，消除了非主属性对于码的部分函数依赖。</li>
+<li>3NF：3NF在2NF的基础之上，消除了非主属性对于码的传递函数依赖 。</li>
+</ul>
+<h1 id="什么是存储过程"><a href="#什么是存储过程" class="headerlink" title="什么是存储过程?"></a>什么是存储过程?</h1><p>我们可以把存储过程看成是一些 SQL 语句的集合，中间加了点逻辑控制语句。存储过程在业务比较复杂的时候是非常实用的，比如很多时候我们完成一个操作可能需要写一大串SQL语句，这时候我们就可以写有一个存储过程，这样也方便了我们下一次的调用。存储过程一旦调试完成通过后就能稳定运行，另外，使用存储过程比单纯SQL语句执行要快，因为存储过程是预编译过的。</p>
+<p>存储过程在互联网公司应用不多，因为存储过程难以调试和扩展，而且没有移植性，还会消耗数据库资源。</p>
+<p>阿里巴巴Java开发手册里要求禁止使用存储过程。</p>
+<p><img src="E:%5CShellExt%5Cerer961115@163.com%5C7ad48798e3f94844b996cecc113085d6%5C4fd42fa48b5b.png" alt="img"></p>
+<h1 id="drop、delete与truncate区别？"><a href="#drop、delete与truncate区别？" class="headerlink" title="drop、delete与truncate区别？"></a>drop、delete与truncate区别？</h1><p>用法不同</p>
+<ul>
+<li>drop(丢弃数据): drop table 表名 ，直接将表都删除掉，在删除表的时候使用。</li>
+<li>truncate (清空数据) : truncate table 表名 ，只删除表中的数据，再插入数据的时候自增长id又从1开始，在清空表中数据的时候使用。</li>
+<li>delete（删除数据） : delete from 表名 where 列名=值，删除某一列的数据，如果不加 where 子句和truncate table 表名作用类似。</li>
+</ul>
+<p>truncate 和不带 where 子句的 delete、以及 drop 都会删除表内的数据，但是 <strong>truncate 和 delete 只删除数据不删除表的结构(定义)，执行drop语句，此表的结构也会删除，也就是执行 drop 之后对应的表不复存在。</strong></p>
+<p>属于不同的数据库语言</p>
+<p>truncate和drop 属于DDL(数据定义语言)语句，操作立即生效，原数据不放到 rollback segment 中，不能回滚，操作不触发 trigger。而 delete 语句是DML (数据库操作语言)语句，这个操作会放到 rollback segement 中，事务提交之后才生效。</p>
+<p><strong>DML 语句和 DDL 语句区别：</strong></p>
+<ul>
+<li>DML 是数据库操作语言（Data Manipulation Language）的缩写，是指对数据库中表记录的操作，主要包括表记录的插入（insert）、更新（update）、删除（delete）和查询（select），是开发人员日常使用最频繁的操作。</li>
+<li>DDL （Data Definition Language）是数据定义语言的缩写，简单来说，就是对数据库内部的对象进行创建、删除、修改的操作语言。它和 DML 语言的最大区别是 DML 只是对表内部数据的操作，而不涉及到表的定义、结构的修改，更不会涉及到其他对象。DDL 语句更多的被数据库管理员（DBA）所使用，一般的开发人员很少使用。</li>
+</ul>
+<p>执行速度不同</p>
+<p>一般来说:drop&gt;truncate&gt;delete（这个我没有设计测试过）。</p>
+<p>数据库设计通常分为哪几步?</p>
+<ol>
+<li><strong>需求分析</strong> : 分析用户的需求，包括数据、功能和性能需求。</li>
+<li><strong>概念结构设计</strong> : 主要采用E-R模型进行设计，包括画E-R图。</li>
+<li><strong>逻辑结构设计</strong> : 通过将E-R图转换成表，实现从E-R模型到关系模型的转换。</li>
+<li><strong>物理结构设计</strong> : 主要是为所设计的数据库选择合适的存储结构和存取路径。</li>
+<li><strong>数据库实施</strong> : 包括编程、测试和试运行</li>
+<li><strong>数据库的运行和维护</strong> : 系统的运行与数据库的日常维护。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>基础</tag>
+        <tag>初识</tag>
+      </tags>
+  </entry>
 </search>
